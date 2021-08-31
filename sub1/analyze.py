@@ -13,6 +13,8 @@ def sort_stores_by_score(dataframes, n=20, min_reviews=30):
     )
     scores_group = stores_reviews.groupby(["store", "store_name"])
     scores = scores_group.mean()
+    scores = scores.sort_values(by="score", ascending=False)
+    print(scores)
     return scores.head(n=n).reset_index()
 
 

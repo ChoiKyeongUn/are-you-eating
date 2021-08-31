@@ -1,6 +1,6 @@
 # SSAFY Bigdata project
 
-## TIL
+## 정리
 
 **2021-08-30**
 
@@ -9,6 +9,7 @@
 **2021-08-31**
 
 - Req 1-1 pandas를 사용하여 menu, user 테이블 추가
+- Req 2-1 음식점 평점 순 정렬 (sort_values 함수 사용)
 
 ## How to Run
 
