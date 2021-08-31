@@ -2,10 +2,12 @@ import json
 import pandas as pd
 import os
 import shutil
+from datetime import datetime
 
 DATA_DIR = "../data"
 DATA_FILE = os.path.join(DATA_DIR, "data.json")
 DUMP_FILE = os.path.join(DATA_DIR, "dump.pkl")
+
 
 store_columns = (
     "id",  # 음식점 고유번호
@@ -28,6 +30,19 @@ review_columns = (
     "reg_time",  # 리뷰 등록 시간
 )
 
+menu_columns = (
+    "id",
+    "store",
+    "menu_name",
+    "price"
+)
+
+user_columns = (
+    "id",
+    "gender",
+    "age"
+)
+
 
 def import_data(data_path=DATA_FILE):
     """
@@ -43,6 +58,11 @@ def import_data(data_path=DATA_FILE):
 
     stores = []  # 음식점 테이블
     reviews = []  # 리뷰 테이블
+    menus = [] # 메뉴 테이블
+    users = [] # 유저 테이블
+
+    menu_id = 1
+    user_set = set()
 
     for d in data:
 
@@ -69,10 +89,23 @@ def import_data(data_path=DATA_FILE):
                 [r["id"], d["id"], u["id"], r["score"], r["content"], r["reg_time"]]
             )
 
+            if u["id"] not in user_set:
+                user_set.add(u["id"])
+                users.append([u["id"], u["gender"], datetime.today().year - int(u["born_year"]) + 1])
+
+
+        for menu in d["menu_list"]:
+            menus.append([menu_id, d["id"], menu["menu"], menu["price"]]);
+            menu_id += 1
+
+    users.sort()
+
     store_frame = pd.DataFrame(data=stores, columns=store_columns)
     review_frame = pd.DataFrame(data=reviews, columns=review_columns)
+    menu_frame = pd.DataFrame(data=menus, columns=menu_columns)
+    user_frame = pd.DataFrame(data=users, columns=user_columns)
 
-    return {"stores": store_frame, "reviews": review_frame}
+    return {"stores": store_frame, "reviews": review_frame, "menus": menu_frame, "users": user_frame}
 
 
 def dump_dataframes(dataframes):
@@ -108,6 +141,15 @@ def main():
     print(data["reviews"].head())
     print(f"\n{separater}\n\n")
 
+    print("[메뉴]")
+    print(f"{separater}\n")
+    print(data["menus"].head())
+    print(f"\n{separater}\n\n")
+
+    print("[유저]")
+    print(f"{separater}\n")
+    print(data["users"].head())
+    print(f"\n{separater}\n\n")
 
 if __name__ == "__main__":
     main()
