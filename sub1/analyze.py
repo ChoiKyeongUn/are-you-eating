@@ -66,6 +66,17 @@ def main():
             )
         )
     print(f"\n{separater}\n\n")
+    
+    most_active_users = get_most_active_users(data)
+    print("[리뷰 많은 유저]")
+    print(f"{separater}\n")
+    for i, store in most_active_users.iterrows():
+        print(
+            "{rank}위: {user}({count}개)".format(
+                rank=i + 1, user=store.user, count=store.review_count
+            )
+        )
+    print(f"\n{separater}\n\n")
 
 
 if __name__ == "__main__":
