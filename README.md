@@ -11,6 +11,13 @@
 - Req 1-1 pandas를 사용하여 menu, user 테이블 추가
 - Req 2-1 음식점 평점 순 정렬 (sort_values 함수 사용)
 
+**2021-09-01**
+
+- Req 2-2 filter 사용해서 리뷰 개수가 min_reviews 이하인 음섹점 제외
+- Req 2-3 groupby, sort_values 사용해서 리뷰 개수 기준 음식점 정렬
+- Req 2-4 groupby, sort_values 사용해서 리뷰 개수 기준 유저 정렬
+- Req 3-1 리뷰 수 10개 단위로 음식점 수 출력
+
 ## How to Run
 
 ### Sub1
