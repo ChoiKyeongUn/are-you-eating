@@ -1,5 +1,6 @@
 import itertools
 from collections import Counter
+from analyze import get_most_reviewed_stores
 from parse import load_dataframes
 import pandas as pd
 import seaborn as sns
@@ -50,35 +51,41 @@ def show_store_categories_graph(dataframes, n=100):
     plt.show()
 
 
-def show_store_review_distribution_graph():
+def show_store_review_distribution_graph(dataframes, n=100):
     """
     Req. 1-3-1 전체 음식점의 리뷰 개수 분포를 그래프로 나타냅니다. 
     """
-    raise NotImplementedError
+    most_reviewed_stores = get_most_reviewed_stores(dataframes, n)
+    
+    # 그래프로 나타냅니다
+    chart = sns.barplot(x="store_name", y="review_count", data=most_reviewed_stores)
+    chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
+    plt.title("음식점 리뷰 개수 분포")
+    plt.show()
 
 
-def show_store_average_ratings_graph():
+def show_store_average_ratings_graph(dataframes, n=100):
     """
     Req. 1-3-2 각 음식점의 평균 평점을 그래프로 나타냅니다.
     """
     raise NotImplementedError
 
 
-def show_user_review_distribution_graph(dataframes):
+def show_user_review_distribution_graph(dataframes, n=100):
     """
     Req. 1-3-3 전체 유저의 리뷰 개수 분포를 그래프로 나타냅니다.
     """
     raise NotImplementedError
 
 
-def show_user_age_gender_distribution_graph(dataframes):
+def show_user_age_gender_distribution_graph(dataframes, n=100):
     """
     Req. 1-3-4 전체 유저의 성별/나이대 분포를 그래프로 나타냅니다.
     """
     raise NotImplementedError
 
 
-def show_stores_distribution_graph(dataframes):
+def show_stores_distribution_graph(dataframes, n=100):
     """
     Req. 1-3-5 각 음식점의 위치 분포를 지도에 나타냅니다.
     """
@@ -88,7 +95,8 @@ def show_stores_distribution_graph(dataframes):
 def main():
     set_config()
     data = load_dataframes()
-    show_store_categories_graph(data)
+    # show_store_categories_graph(data)
+    show_store_review_distribution_graph(data, 10)
 
 
 if __name__ == "__main__":
