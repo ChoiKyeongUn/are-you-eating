@@ -1,6 +1,8 @@
 import itertools
 from collections import Counter
-from analyze import get_most_reviewed_stores, sort_stores_by_score
+
+from numpy.core.fromnumeric import sort
+from analyze import get_most_reviewed_stores, sort_stores_by_score, get_most_active_users
 from parse import load_dataframes
 import pandas as pd
 import seaborn as sns
@@ -81,7 +83,15 @@ def show_user_review_distribution_graph(dataframes, n=100):
     """
     Req. 1-3-3 전체 유저의 리뷰 개수 분포를 그래프로 나타냅니다.
     """
-    raise NotImplementedError
+
+    most_active_users = get_most_active_users(dataframes, n)
+    most_active_users['user'] = most_active_users['user'].astype(str)
+    
+    # 그래프로 나타냅니다
+    chart = sns.barplot(x="user", y="review_count", data=most_active_users)
+    chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
+    plt.title("유저의 리뷰 개수 분포")
+    plt.show()
 
 
 def show_user_age_gender_distribution_graph(dataframes, n=100):
@@ -103,7 +113,9 @@ def main():
     data = load_dataframes()
     # show_store_categories_graph(data)
     # show_store_review_distribution_graph(data, 10)
-    show_store_average_ratings_graph(data, 50, 20)
+    # show_store_average_ratings_graph(data, 50, 20)
+    # show_user_review_distribution_graph(data, 50)
+    
 
 
 if __name__ == "__main__":
