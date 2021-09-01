@@ -159,12 +159,49 @@ def show_user_review_distribution_graph(dataframes):
     plt.show()
 
 
-def show_user_age_gender_distribution_graph(dataframes, n=100):
+def show_user_age_gender_distribution_graph(dataframes):
     """
     Req. 1-3-4 전체 유저의 성별/나이대 분포를 그래프로 나타냅니다.
     """
 
-    print()
+    def get_ranges(intervals):
+        result = list(map(lambda interval: get_range(interval), intervals))
+        return result
+    def get_range(interval):
+        left = interval.left + 1
+        right = interval.right
+        return f'{left} ~ {right}'
+    
+    users = dataframes["users"]
+    users = users.loc[(users.age > 0) & (users.age <= 100), :]
+    male_users = users.loc[users.gender=='남',:]
+    female_users = users.loc[users.gender=='여',:]
+
+    grouped_male = male_users.groupby(pd.cut(male_users['age'], np.arange(-1, 100, 10)))['id'].agg([('count', 'count')])
+    grouped_female = female_users.groupby(pd.cut(female_users['age'], np.arange(-1, 100, 10)))['id'].agg([('count', 'count')])
+    
+    grouped_male['range'] = get_ranges(grouped_male.index)
+    grouped_female['range'] = get_ranges(grouped_female.index)
+
+    ranges = []
+    gender = []
+    count = []
+    
+    for i in range(len(grouped_male)):
+        ranges.append(grouped_male['range'][i])
+        gender.append('남')
+        count.append(grouped_male['count'][i])
+        ranges.append(grouped_female['range'][i])
+        gender.append('여')
+        count.append(grouped_female['count'][i])
+    
+    df = pd.DataFrame({'range': ranges, 'gender': gender, 'count': count});
+
+    # 그래프로 나타냅니다
+    chart = sns.barplot(x="range", y="count", data=df, hue="gender")
+    chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
+    plt.title("전체 유저의 성별/나이대 분포")
+    plt.show()
 
 
 def show_stores_distribution_graph(dataframes, n=100):
@@ -180,7 +217,7 @@ def main():
     # show_store_categories_graph(data)
     # show_store_review_distribution_graph(data)
     # show_store_average_ratings_graph(data, 50, 20)
-    show_user_review_distribution_graph(data)
+    # show_user_review_distribution_graph(data)
     # show_user_age_gender_distribution_graph(data)
 
 
