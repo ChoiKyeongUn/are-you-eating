@@ -13,10 +13,12 @@
 
 **2021-09-01**
 
-- Req 2-2 filter 사용해서 리뷰 개수가 min_reviews 이하인 음섹점 제외
+- Req 2-2 filter 사용해서 리뷰 개수가 min_reviews 이하인 음식점 제외
 - Req 2-3 groupby, sort_values 사용해서 리뷰 개수 기준 음식점 정렬
 - Req 2-4 groupby, sort_values 사용해서 리뷰 개수 기준 유저 정렬
 - Req 3-1 리뷰 수 10개 단위로 음식점 수 출력
+- Req 3-2 각 음식점의 평균 평점 min_reviews 이하인 음식점 제외
+- Req 3-3 리뷰 수 40개 단위로 유저 수 출력
 
 ## How to Run
 
