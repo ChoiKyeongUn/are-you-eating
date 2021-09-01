@@ -1,6 +1,6 @@
 import itertools
 from collections import Counter
-from analyze import get_most_reviewed_stores
+from analyze import get_most_reviewed_stores, sort_stores_by_score
 from parse import load_dataframes
 import pandas as pd
 import seaborn as sns
@@ -64,11 +64,17 @@ def show_store_review_distribution_graph(dataframes, n=100):
     plt.show()
 
 
-def show_store_average_ratings_graph(dataframes, n=100):
+def show_store_average_ratings_graph(dataframes, n=100, min_reviews=30):
     """
     Req. 1-3-2 각 음식점의 평균 평점을 그래프로 나타냅니다.
     """
-    raise NotImplementedError
+    df = sort_stores_by_score(dataframes, n, min_reviews)
+    
+    # 그래프로 나타냅니다
+    chart = sns.barplot(x="store_name", y="score", data=df)
+    chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
+    plt.title("음식점의 평균 평점")
+    plt.show()
 
 
 def show_user_review_distribution_graph(dataframes, n=100):
@@ -96,7 +102,8 @@ def main():
     set_config()
     data = load_dataframes()
     # show_store_categories_graph(data)
-    show_store_review_distribution_graph(data, 10)
+    # show_store_review_distribution_graph(data, 10)
+    show_store_average_ratings_graph(data, 50, 20)
 
 
 if __name__ == "__main__":
