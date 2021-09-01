@@ -4,7 +4,7 @@ import os
 import shutil
 from datetime import datetime
 
-DATA_DIR = "../data"
+DATA_DIR = "./data"
 DATA_FILE = os.path.join(DATA_DIR, "data.json")
 DUMP_FILE = os.path.join(DATA_DIR, "dump.pkl")
 
