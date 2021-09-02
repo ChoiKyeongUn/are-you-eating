@@ -1,6 +1,7 @@
 from parse import load_dataframes
 import pandas as pd
 import shutil
+import numpy as np
 
 
 def sort_stores_by_score(dataframes, n=20, min_reviews=30):
@@ -37,8 +38,30 @@ def get_most_active_users(dataframes, n=20):
 
     return sorted_users.head(n=n).reset_index()
 
+def get_user_store_score_matrix(dataframes):
+    """
+    Req. 1-4-1 유저와 음식점을 축으로 하고 평점을 값으로 갖는 행렬을 만들어 저장합니다.
+    """
+    df_users = dataframes["users"]
+    df_stores = dataframes["stores"]
+    df_reviews = dataframes['reviews']
+    users = list(df_users["id"])
+    stores = list(df_stores["id"])
+    df = pd.DataFrame(index=users, columns=stores, data=0, dtype=np.float16)
+
+    user_reviews = pd.merge(df_users, df_reviews, left_on='id', right_on='user')
+    for idx in user_reviews.index:
+        user_id = user_reviews.loc[idx]["id_x"]
+        store_id = user_reviews.loc[idx]["store"]
+        score = user_reviews.loc[idx]["score"]
+        df.loc[user_id,store_id] = score
+    
+    return df
+
 def main():
     data = load_dataframes()
+    get_user_store_score_matrix(data)
+
 
     term_w = shutil.get_terminal_size()[0] - 1
     separater = "-" * term_w
@@ -50,7 +73,7 @@ def main():
     for i, store in stores_most_scored.iterrows():
         print(
             "{rank}위: {store}({score}점)".format(
-                rank=i + 1, store=store.store_name, score=store.score
+                rank=i + 1, store=store.    store_name, score=store.score
             )
         )
     print(f"\n{separater}\n\n")
