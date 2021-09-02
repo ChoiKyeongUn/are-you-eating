@@ -9,7 +9,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 import numpy as np
-
+import folium
 
 def set_config():
     # 폰트, 그래프 색상 설정
@@ -204,12 +204,27 @@ def show_user_age_gender_distribution_graph(dataframes):
     plt.show()
 
 
-def show_stores_distribution_graph(dataframes, n=100):
+def show_stores_distribution_graph(dataframes):
     """
     Req. 1-3-5 각 음식점의 위치 분포를 지도에 나타냅니다.
     """
-    raise NotImplementedError
+    stores = dataframes["stores"]
+    stores = stores.astype({'latitude': 'float', 'longitude': 'float'})
+    stores = stores[['store_name', 'address', 'latitude', 'longitude']].dropna()
+    jeju_stores = stores.query("address.str.contains('제주특별자치도')").reset_index()
 
+    center = [33.376349, 126.548024]
+    m = folium.Map(location=center, zoom_start=11)
+    for i in jeju_stores.sample(n=1000, replace=False).index:
+        folium.Circle(
+            location = list(jeju_stores.loc[i, ['latitude', 'longitude']]),
+            tooltip = jeju_stores.loc[i, 'store_name'],
+            radius = 30
+        ).add_to(m)
+    
+    m.save("index.html")
+
+    print()
 
 def main():
     set_config()
@@ -218,7 +233,8 @@ def main():
     # show_store_review_distribution_graph(data)
     # show_store_average_ratings_graph(data, 50, 20)
     # show_user_review_distribution_graph(data)
-    # show_user_age_gender_distribution_graph(data)
+    show_user_age_gender_distribution_graph(data)
+    # show_stores_distribution_graph(data)
 
 
 
