@@ -28,6 +28,10 @@
 - Req 3-5 제주도 음식점중 랜덤한 1000개만 지도에 표시 (index.html)
 - Req 4-1 analyze.py에 get_user_store_score_matrix함수로 구현
 
+## 어려웠던 점
+
+파이썬과 pandas를 사용하는 것이 익숙하지 않아서 내가 한 방법이 효율적인 방법인지 모르는 것
+
 ## How to Run
 
 ### Sub1
