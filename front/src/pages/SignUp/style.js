@@ -19,7 +19,7 @@ export const SignUpBox = styled.div`
   height: 100%;
   width: 550px;
   background-color: white;
-  padding: 10px 15px;
+  padding: 20px 30px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -32,6 +32,7 @@ export const SignUpBox = styled.div`
   h1 {
     margin-bottom: 20px;
     font-size: 24px;
+    font-weight: 500;
   }
   .box {
     display: flex;
@@ -94,9 +95,11 @@ export const StyledInput = styled.input`
 export const Button = styled.button`
   width: 100%;
   text-align: center;
-  background-color: ${colors.yellow};
-  color: white;
+  background-color: ${(props) => (props.outline ? "white" : colors.yellow)};
+  color: ${(props) => (props.outline ? colors.yellow : "white")};
+  border: ${(props) => (props.outline ? `1px solid ${colors.yellow}` : "none")};
   height: 40px;
   border-radius: 6px;
+  font-size: 16px;
   cursor: pointer;
 `;

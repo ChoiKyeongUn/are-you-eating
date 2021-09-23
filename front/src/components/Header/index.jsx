@@ -1,6 +1,5 @@
 import React from "react";
 import { useHistory } from "react-router";
-import { colors } from "../../styles";
 import { Logo, Menu, Search, Wrapper } from "./style";
 
 export default function Header() {
