@@ -18,4 +18,7 @@ class StoreViewSet(viewsets.ModelViewSet):
         queryset = (
             models.Store.objects.all().filter(store_name__contains=name).order_by("id")
         )
+        print(models.Store.objects.all().order_by("id"))
+        print(name)
+        print(queryset)
         return queryset

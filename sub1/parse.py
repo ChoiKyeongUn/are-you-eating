@@ -4,7 +4,7 @@ import os
 import shutil
 from datetime import datetime
 
-DATA_DIR = "./data"
+DATA_DIR = "../data"
 DATA_FILE = os.path.join(DATA_DIR, "data.json")
 DUMP_FILE = os.path.join(DATA_DIR, "dump.pkl")
 
@@ -133,7 +133,7 @@ def main():
 
     print("[음식점]")
     print(f"{separater}\n")
-    print(data["stores"].head())
+    print(data["stores"].head(n=20))
     print(f"\n{separater}\n\n")
 
     print("[리뷰]")
