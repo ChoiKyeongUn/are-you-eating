@@ -11,11 +11,11 @@ class Command(BaseCommand):
     DATA_FILE = str(DATA_DIR / "dump.pkl")
 
     def _load_dataframes(self):
-        try:
-            data = pd.read_pickle(Command.DATA_FILE)
-        except:
-            print(f"[-] Reading {Command.DATA_FILE} failed")
-            exit(1)
+        # try:
+        data = pd.read_pickle('./dump.pkl')
+        # except:
+        #     print(f"[-] Reading {Command.DATA_FILE} failed")
+        #     exit(1)
         return data
 
     def _initialize(self):
