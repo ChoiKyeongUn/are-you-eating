@@ -39,4 +39,15 @@ public class UserServiceImpl implements UserService {
         user = userRepo.save(user);
         return user.getUserId();
     }
+
+    @Override
+    @Transactional
+    public Boolean deleteUserByUserId(String id) {
+        User user = userRepo.findByUserId(id);
+        if(user == null) {
+            return false;
+        }
+        userRepo.deleteById(user.getUserId());
+        return true;
+    }
 }
