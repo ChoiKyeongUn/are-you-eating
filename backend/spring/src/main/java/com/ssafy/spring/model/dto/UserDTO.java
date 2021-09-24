@@ -1,9 +1,11 @@
 package com.ssafy.spring.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ssafy.spring.model.entity.Review;
 import com.ssafy.spring.model.entity.User;
 import com.ssafy.spring.model.entity.UserBadge;
 import com.ssafy.spring.model.entity.UserCategory;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +20,8 @@ import java.util.List;
 public class UserDTO {
 
     private String id;
+    @JsonIgnore
+    private String password;
     private String nickname;
     private String gender;
     private LocalDate birth;
@@ -48,6 +52,61 @@ public class UserDTO {
         }
         for(UserBadge ub: user.getUserBadges()) {
             this.userBadges.add(new UserBadgeDTO(ub));
+        }
+    }
+
+    @Getter
+    public static class LoginPostReq {
+        @Schema(name = "id", example = "ssafy1234")
+        private String id;
+        @Schema(name = "password", example = "password1234")
+        private String password;
+
+        public LoginPostReq(String id, String password) {
+            this.id = id;
+            this.password = password;
+        }
+    }
+
+    @Getter
+    public static class LoginPostRes {
+        @Schema(name = "JWT Authentication Token")
+        private String token;
+
+        public LoginPostRes(String token) {
+            this.token = token;
+        }
+    }
+
+    @Getter
+    public static class JoinPostReq {
+        @Schema(name = "id", example = "ssafy1234")
+        private String id;
+        @Schema(name = "password", example = "password1234")
+        private String password;
+        @Schema(name = "nickname", example = "경운기")
+        private String nickname;
+        @Schema(name = "gender", example = "남성")
+        private String gender;
+        @Schema(name = "birth", example = "2021-09-23")
+        private LocalDate birth;
+        @Schema(name = "address", example = "충북 증평군 ..")
+        private String address;
+        @Schema(name = "latitude", example = "123.45")
+        private Float latitude;
+        @Schema(name = "longitude", example = "111,22")
+        private Float longitude;
+
+        @Builder
+        public JoinPostReq(String id, String password, String nickname, String gender, LocalDate birth, String address, Float latitude, Float longitude) {
+            this.id = id;
+            this.password = password;
+            this.nickname = nickname;
+            this.gender = gender;
+            this.birth = birth;
+            this.address = address;
+            this.latitude = latitude;
+            this.longitude = longitude;
         }
     }
 }
