@@ -1,19 +1,35 @@
 import React from "react";
 import { useHistory } from "react-router";
-import { colors } from "../../styles";
 import { Logo, Menu, Search, Wrapper } from "./style";
+import { BsSearch } from "react-icons/bs";
+import { useState } from "react";
 
 export default function Header() {
+  const [search, setSearch] = useState("");
   const history = useHistory();
   function isLoggedIn() {
-    return false;
+    return true;
   }
   return (
     <Wrapper>
       <Logo>
         <img src="images/logo.png" alt="" srcset="" />
       </Logo>
-      {isLoggedIn() && <Search></Search>}
+      {isLoggedIn() && (
+        <Search>
+          <span className="icon">
+            <BsSearch />
+          </span>
+          <input
+            type="text"
+            placeholder="지역, 식당 또는 음식"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
+          />
+        </Search>
+      )}
       <Menu>
         {isLoggedIn() ? (
           <>
