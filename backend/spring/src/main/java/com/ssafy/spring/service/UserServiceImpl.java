@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService {
                 .latitude(joinInfo.getLatitude())
                 .longitude(joinInfo.getLongitude())
                 .password(new BCryptPasswordEncoder().encode(joinInfo.getPassword()))
+                .isLoggedIn(false)
                 .build();
         user = userRepo.save(user);
         return user.getUserId();
