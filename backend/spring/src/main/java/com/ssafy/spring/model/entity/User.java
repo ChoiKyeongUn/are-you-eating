@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long userId;
 
@@ -24,6 +24,7 @@ public class User {
     private String address;
     private Float latitude;
     private Float longitude;
+    @Column(name = "is_loggedin")
     private Boolean isLoggedIn;
 
     @OneToMany(mappedBy = "user")

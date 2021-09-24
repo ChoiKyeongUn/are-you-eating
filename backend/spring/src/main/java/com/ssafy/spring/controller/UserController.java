@@ -45,7 +45,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "중복 x"),
             @ApiResponse(responseCode = "409", description = "중복된 아이디"),
             @ApiResponse(responseCode = "500", description = "서버 오류")})
-    public ResponseEntity<Boolean> checkId(@Parameter(name = "아이디", required = true) @RequestBody String id) {
+    public ResponseEntity<Boolean> checkId(@Parameter(name = "id", required = true) @RequestBody String id) {
         User confirmUser = userService.getUserByUserId(id);
         if(confirmUser == null) {
             return new ResponseEntity<>(false, HttpStatus.OK);
