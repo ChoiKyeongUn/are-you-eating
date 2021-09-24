@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,11 +45,11 @@ public class UserController {
     }
 
     @GetMapping("/checkId")
-    @Operation(summary = "아이디 중복검사", description = "아이디와 패스워드를 입력하여 로그이한다.", responses = {
+    @Operation(summary = "아이디 중복검사", description = "아이디를 입력하여 중복체크를 한다.", responses = {
             @ApiResponse(responseCode = "200", description = "중복 x"),
             @ApiResponse(responseCode = "409", description = "중복된 아이디"),
             @ApiResponse(responseCode = "500", description = "서버 오류")})
-    public ResponseEntity<Boolean> checkId(@Parameter(name = "id", required = true) @RequestBody String id) {
+    public ResponseEntity<Boolean> checkId(@Parameter(name = "아이디", required = true) @RequestBody String id) {
         User confirmUser = userService.getUserByUserId(id);
         if(confirmUser == null) {
             return new ResponseEntity<>(false, HttpStatus.OK);
@@ -68,6 +69,31 @@ public class UserController {
 
         Long id = userService.createUser(signupInfo);
         if(id == null) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("deactivate")
+    @Operation(summary = "회원 탈퇴", description = "회원의 정보를 삭제한다.", responses = {
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "401", description = "인증 실패"),
+            @ApiResponse(responseCode = "403", description = "토큰 없음"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")})
+    public ResponseEntity<Void> deleteUser(@Parameter(hidden = true) Authentication authentication) {
+        if(authentication == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getDetails();
+
+        if(userDetails == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        boolean flag = userService.deleteUserByUserId(userDetails.getUsername());
+        if(!flag) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
