@@ -24,16 +24,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Long createUser(UserDTO.JoinPostReq joinInfo) {
+    public Long createUser(UserDTO.SignupPostReq signupInfo) {
         User user = User.builder()
-                .id(joinInfo.getId())
-                .nickname(joinInfo.getNickname())
-                .gender(joinInfo.getGender())
-                .birth(joinInfo.getBirth())
-                .address(joinInfo.getAddress())
-                .latitude(joinInfo.getLatitude())
-                .longitude(joinInfo.getLongitude())
-                .password(new BCryptPasswordEncoder().encode(joinInfo.getPassword()))
+                .id(signupInfo.getId())
+                .nickname(signupInfo.getNickname())
+                .gender(signupInfo.getGender())
+                .birth(signupInfo.getBirth())
+                .address(signupInfo.getAddress())
+                .latitude(signupInfo.getLatitude())
+                .longitude(signupInfo.getLongitude())
+                .password(new BCryptPasswordEncoder().encode(signupInfo.getPassword()))
                 .isLoggedIn(false)
                 .build();
         user = userRepo.save(user);
