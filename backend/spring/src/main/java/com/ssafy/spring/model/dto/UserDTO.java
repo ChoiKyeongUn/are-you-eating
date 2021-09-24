@@ -19,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserDTO {
 
+    private Long userId;
     private String id;
     @JsonIgnore
     private String password;
@@ -36,6 +37,7 @@ public class UserDTO {
 
     @Builder
     public UserDTO(User user) {
+        this.userId = user.getUserId();
         this.id = user.getId();
         this.nickname = user.getNickname();
         this.gender = user.getGender();
