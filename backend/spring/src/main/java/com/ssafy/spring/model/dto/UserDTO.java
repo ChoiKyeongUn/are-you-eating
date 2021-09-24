@@ -96,7 +96,7 @@ public class UserDTO {
         private String address;
         @Schema(name = "latitude", example = "123.45")
         private Float latitude;
-        @Schema(name = "longitude", example = "111,22")
+        @Schema(name = "longitude", example = "111.22")
         private Float longitude;
 
         @Builder
