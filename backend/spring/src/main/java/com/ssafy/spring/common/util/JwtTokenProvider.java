@@ -9,6 +9,9 @@ import org.slf4j.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -80,5 +83,16 @@ public class JwtTokenProvider {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static ResponseEntity<UserDetailsImpl> judgeAuthorization(Authentication authentication) {
+        if(authentication == null) {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getDetails();
+        if(userDetails == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<>(userDetails, HttpStatus.OK);
     }
 }
