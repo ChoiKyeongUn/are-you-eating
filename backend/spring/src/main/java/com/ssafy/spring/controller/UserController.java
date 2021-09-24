@@ -82,15 +82,13 @@ public class UserController {
             @ApiResponse(responseCode = "403", description = "토큰 없음"),
             @ApiResponse(responseCode = "500", description = "서버 오류")})
     public ResponseEntity<Void> deleteUser(@Parameter(hidden = true) Authentication authentication) {
-        if(authentication == null) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
+        ResponseEntity<UserDetailsImpl> userDetailsResponseEntity = JwtTokenProvider.judgeAuthorization(authentication);
+        if(userDetailsResponseEntity.getBody() == null) {
+            return new ResponseEntity<>(userDetailsResponseEntity.getStatusCode());
         }
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getDetails();
-
-        if(userDetails == null) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
+        UserDetailsImpl userDetails = userDetailsResponseEntity.getBody();
 
         boolean flag = userService.deleteUserByUserId(userDetails.getUsername());
         if(!flag) {
@@ -98,5 +96,21 @@ public class UserController {
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("")
+    @Operation(summary = "마이페이지", description = "자신의 정보를 조회한다.", responses = {
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "401", description = "인증 실패"),
+            @ApiResponse(responseCode = "403", description = "토큰 없음"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")})
+    public ResponseEntity<UserDTO> getMyself(@Parameter(hidden = true) Authentication authentication) {
+        ResponseEntity<UserDetailsImpl> userDetailsResponseEntity = JwtTokenProvider.judgeAuthorization(authentication);
+        if(userDetailsResponseEntity.getBody() == null) {
+            return new ResponseEntity<>(userDetailsResponseEntity.getStatusCode());
+        }
+
+        UserDetailsImpl userDetails = userDetailsResponseEntity.getBody();
+        return new ResponseEntity<>(new UserDTO(userService.getUserByUserId(userDetails.getUsername())), HttpStatus.OK);
     }
 }
