@@ -26,7 +26,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "로그인 성공"),
             @ApiResponse(responseCode = "401", description = "계정이 존재하지 않거나 일치하지 않는 비밀번호"),
             @ApiResponse(responseCode = "500", description = "서버 오류")})
-    public ResponseEntity<String> signin(@Parameter(name = "로그인 정보", required = true) @RequestBody UserDTO.LoginPostReq loginInfo) {
+    public ResponseEntity<UserDTO.SigninPostRes> signin(@Parameter(name = "로그인 정보", required = true) @RequestBody UserDTO.SigninPostReq loginInfo) {
         String id = loginInfo.getId();
         String pwd = loginInfo.getPassword();
 
@@ -37,7 +37,10 @@ public class UserController {
         if(new BCryptPasswordEncoder().matches(pwd, user.getPassword()) == false) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity(JwtTokenProvider.generateToken(new UserDetailsImpl(user)), HttpStatus.OK);
+        return new ResponseEntity(
+                new UserDTO.SigninPostRes(JwtTokenProvider.generateToken(new UserDetailsImpl(user)), user.getIsLoggedIn()),
+                HttpStatus.OK
+        );
     }
 
     @GetMapping("/checkId")
@@ -58,12 +61,12 @@ public class UserController {
             @ApiResponse(responseCode = "201", description = "성공"),
             @ApiResponse(responseCode = "409", description = "중복된 계정 오류"),
             @ApiResponse(responseCode = "500", description = "서버 오류")})
-    public ResponseEntity<Void> signup(@Parameter(name = "회원가입 정보", required = true) @RequestBody UserDTO.JoinPostReq joinInfo) {
-        if(checkId(joinInfo.getId()).getStatusCode() == HttpStatus.CONFLICT) {
+    public ResponseEntity<Void> signup(@Parameter(name = "회원가입 정보", required = true) @RequestBody UserDTO.SignupPostReq signupInfo) {
+        if(checkId(signupInfo.getId()).getStatusCode() == HttpStatus.CONFLICT) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
-        Long id = userService.createUser(joinInfo);
+        Long id = userService.createUser(signupInfo);
         if(id == null) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -56,30 +56,32 @@ public class UserDTO {
     }
 
     @Getter
-    public static class LoginPostReq {
+    public static class SigninPostReq {
         @Schema(name = "id", example = "ssafy1234")
         private String id;
         @Schema(name = "password", example = "password1234")
         private String password;
 
-        public LoginPostReq(String id, String password) {
+        public SigninPostReq(String id, String password) {
             this.id = id;
             this.password = password;
         }
     }
 
     @Getter
-    public static class LoginPostRes {
+    public static class SigninPostRes {
         @Schema(name = "JWT Authentication Token")
         private String token;
+        private Boolean isLoggedin;
 
-        public LoginPostRes(String token) {
+        public SigninPostRes(String token, Boolean isLoggedin) {
             this.token = token;
+            this.isLoggedin = isLoggedin;
         }
     }
 
     @Getter
-    public static class JoinPostReq {
+    public static class SignupPostReq {
         @Schema(name = "id", example = "ssafy1234")
         private String id;
         @Schema(name = "password", example = "password1234")
@@ -98,7 +100,7 @@ public class UserDTO {
         private Float longitude;
 
         @Builder
-        public JoinPostReq(String id, String password, String nickname, String gender, LocalDate birth, String address, Float latitude, Float longitude) {
+        public SignupPostReq(String id, String password, String nickname, String gender, LocalDate birth, String address, Float latitude, Float longitude) {
             this.id = id;
             this.password = password;
             this.nickname = nickname;
