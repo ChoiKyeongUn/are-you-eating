@@ -13,7 +13,14 @@ export default function Header() {
   return (
     <Wrapper>
       <Logo>
-        <img src="images/logo.png" alt="" srcset="" />
+        <img
+          src="images/logo.png"
+          alt=""
+          srcset=""
+          onClick={() => {
+            history.push("/");
+          }}
+        />
       </Logo>
       {isLoggedIn() && (
         <Search>

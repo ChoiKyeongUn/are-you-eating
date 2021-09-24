@@ -13,6 +13,7 @@ export const Wrapper = styled.div`
   gap: 30px;
   justify-content: space-between;
   padding: 0 15px;
+  z-index: 999;
 `;
 
 export const Logo = styled.div`
@@ -21,6 +22,7 @@ export const Logo = styled.div`
   justify-content: center;
   img {
     width: 55px;
+    cursor: pointer;
   }
 `;
 export const Search = styled.div`
