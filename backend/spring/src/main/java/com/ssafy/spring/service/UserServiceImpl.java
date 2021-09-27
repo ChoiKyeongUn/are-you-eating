@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -62,5 +63,16 @@ public class UserServiceImpl implements UserService {
             return find.get();
         }
         return null;
+    }
+
+    @Override
+    @Transactional
+    public Long modify(String id, UserDTO.SignupPostReq modifyInfo) {
+        User user = getUserByUserId(id);
+        if(user == null) {
+            return null;
+        }
+        user.modify(modifyInfo);
+        return user.getUserId();
     }
 }
