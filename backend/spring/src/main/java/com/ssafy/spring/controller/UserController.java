@@ -15,6 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.ws.Response;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
@@ -133,5 +135,26 @@ public class UserController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(new UserDTO(find), HttpStatus.OK);
+    }
+
+    @PatchMapping("")
+    @Operation(summary = "회원 정보 수정", description = "회원의 정보를 수정한다.", responses = {
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "401", description = "인증 실패"),
+            @ApiResponse(responseCode = "403", description = "토큰 없음"),
+            @ApiResponse(responseCode = "409", description = "해당 회원 정보 없음"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")})
+    public ResponseEntity<UserDTO> modifyProfile(@Parameter(hidden = true) Authentication authentication,
+                                                 @Parameter(name = "수정할 정보", required = true) @RequestBody UserDTO.SignupPostReq modifyInfo) {
+        ResponseEntity<UserDetailsImpl> userDetailsResponseEntity = JwtTokenProvider.judgeAuthorization(authentication);
+        if(userDetailsResponseEntity.getBody() == null) {
+            return new ResponseEntity<>(null, userDetailsResponseEntity.getStatusCode());
+        }
+        Long userId = userService.modify(userDetailsResponseEntity.getBody().getUsername(), modifyInfo);
+        if(userId == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(new UserDTO(userService.getUserById(userId)), HttpStatus.OK);
     }
 }
