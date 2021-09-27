@@ -1,6 +1,8 @@
 package com.ssafy.spring.model.entity;
 
+import com.ssafy.spring.model.dto.UserDTO;
 import lombok.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -51,5 +53,15 @@ public class User {
         this.reviews = reviews;
         this.userCategories = userCategories;
         this.userBadges = userBadges;
+    }
+
+    public void modify(UserDTO.SignupPostReq req) {
+        this.setPassword(new BCryptPasswordEncoder().encode(req.getPassword()));
+        this.setNickname(req.getNickname());
+        this.setGender(req.getGender());
+        this.setBirth(req.getBirth());
+        this.setAddress(req.getAddress());
+        this.setLatitude(req.getLatitude());
+        this.setLongitude(req.getLongitude());
     }
 }

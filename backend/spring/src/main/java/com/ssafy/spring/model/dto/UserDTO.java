@@ -112,5 +112,19 @@ public class UserDTO {
             this.latitude = latitude;
             this.longitude = longitude;
         }
+
+        @Override
+        public String toString() {
+            return "SignupPostReq{" +
+                    "id='" + id + '\'' +
+                    ", password='" + password + '\'' +
+                    ", nickname='" + nickname + '\'' +
+                    ", gender='" + gender + '\'' +
+                    ", birth=" + birth +
+                    ", address='" + address + '\'' +
+                    ", latitude=" + latitude +
+                    ", longitude=" + longitude +
+                    '}';
+        }
     }
 }

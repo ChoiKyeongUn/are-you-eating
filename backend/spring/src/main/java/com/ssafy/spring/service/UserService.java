@@ -10,4 +10,5 @@ public interface UserService {
     Long createUser(UserDTO.SignupPostReq signupInfo);
     Boolean deleteUserByUserId(String id);
     User getUserById(Long userId);
+    Long modify(String id, UserDTO.SignupPostReq modifyInfo);
 }
