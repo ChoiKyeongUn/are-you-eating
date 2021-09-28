@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -19,7 +20,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByUserId(String id) {
-        return userRepo.findByUserId(id);
+        Optional<User> find = userRepo.findByUserId(id);
+        if(find.isPresent()) {
+            return find.get();
+        }
+        return null;
     }
 
     @Override
@@ -43,11 +48,31 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public Boolean deleteUserByUserId(String id) {
-        User user = userRepo.findByUserId(id);
-        if(user == null) {
-            return false;
+        Optional<User> user = userRepo.findByUserId(id);
+        if(user.isPresent()) {
+            userRepo.deleteById(user.get().getUserId());
+            return true;
         }
-        userRepo.deleteById(user.getUserId());
-        return true;
+        return false;
+    }
+
+    @Override
+    public User getUserById(Long userId) {
+        Optional<User> find = userRepo.findById(userId);
+        if(find.isPresent()) {
+            return find.get();
+        }
+        return null;
+    }
+
+    @Override
+    @Transactional
+    public Long modify(String id, UserDTO.SignupPostReq modifyInfo) {
+        User user = getUserByUserId(id);
+        if(user == null) {
+            return null;
+        }
+        user.modify(modifyInfo);
+        return user.getUserId();
     }
 }
