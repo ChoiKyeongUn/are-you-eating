@@ -3,7 +3,6 @@ package com.ssafy.spring.controller;
 import com.ssafy.spring.common.auth.UserDetailsImpl;
 import com.ssafy.spring.common.util.JwtTokenProvider;
 import com.ssafy.spring.model.dto.CategoryDTO;
-import com.ssafy.spring.model.dto.UserCategoryDTO;
 import com.ssafy.spring.model.dto.UserDTO;
 import com.ssafy.spring.model.entity.User;
 import com.ssafy.spring.service.UserCategoryService;
@@ -18,8 +17,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
@@ -33,9 +30,9 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "로그인 성공"),
             @ApiResponse(responseCode = "401", description = "계정이 존재하지 않거나 일치하지 않는 비밀번호"),
             @ApiResponse(responseCode = "500", description = "서버 오류")})
-    public ResponseEntity<UserDTO.SigninPostRes> signin(@Parameter(name = "로그인 정보", required = true) @RequestBody UserDTO.SigninPostReq loginInfo) {
-        String id = loginInfo.getId();
-        String pwd = loginInfo.getPassword();
+    public ResponseEntity<UserDTO.SigninPostRes> signIn(@Parameter(name = "로그인 정보", required = true) @RequestBody UserDTO.SigninPostReq signinInfo) {
+        String id = signinInfo.getId();
+        String pwd = signinInfo.getPassword();
 
         User user = userService.getUserByUserId(id);
         if(user == null) {
@@ -55,7 +52,8 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "중복 x"),
             @ApiResponse(responseCode = "409", description = "중복된 아이디"),
             @ApiResponse(responseCode = "500", description = "서버 오류")})
-    public ResponseEntity<Boolean> checkId(@Parameter(name = "아이디", required = true) @RequestBody String id) {
+    public ResponseEntity<Boolean> checkId(@Parameter(name = "id", description = "중복체크할 아이디", example = "ssafy1234", required = true) @RequestParam(name = "id") String id) {
+        System.out.println(id);
         User confirmUser = userService.getUserByUserId(id);
         if(confirmUser == null) {
             return new ResponseEntity<>(false, HttpStatus.OK);
