@@ -19,7 +19,7 @@ public class UserCategoryDTO {
     @Builder
     public UserCategoryDTO(UserCategory userCategory) {
         this.userId = userCategory.getUser().getUserId();
-        this.categoryId = userCategory.getCategory().getId();
+        this.categoryId = userCategory.getCategory().getCategoryId();
     }
 
     @Getter

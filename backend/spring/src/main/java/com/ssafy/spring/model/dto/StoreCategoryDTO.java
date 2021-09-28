@@ -15,7 +15,7 @@ public class StoreCategoryDTO {
 
     @Builder
     public StoreCategoryDTO(StoreCategory storeCategory) {
-        this.storeId = storeCategory.getStore().getId();
-        this.categoryId = storeCategory.getCategory().getId();
+        this.storeId = storeCategory.getStore().getStoreId();
+        this.categoryId = storeCategory.getCategory().getCategoryId();
     }
 }
