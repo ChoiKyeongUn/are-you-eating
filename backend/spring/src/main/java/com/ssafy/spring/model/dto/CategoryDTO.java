@@ -15,12 +15,14 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CategoryDTO {
 
+    private Long categoryId;
     private String name;
     private List<StoreCategoryDTO> storeCategories = new ArrayList<>();
     private List<UserCategoryDTO> userCategories = new ArrayList<>();
 
     @Builder
     public CategoryDTO(Category category) {
+        this.categoryId = category.getId();
         this.name = category.getName();
         for(StoreCategory sc: category.getStoreCategories()) {
             this.storeCategories.add(new StoreCategoryDTO(sc));

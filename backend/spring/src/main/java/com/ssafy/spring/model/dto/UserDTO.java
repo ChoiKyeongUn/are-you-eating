@@ -33,7 +33,7 @@ public class UserDTO {
 
     private List<ReviewDTO> reviews = new ArrayList<>();
     private List<UserCategoryDTO> userCategories = new ArrayList<>();
-    private List<UserBadgeDTO> userBadges = new ArrayList<>();
+//    private List<UserBadgeDTO> userBadges = new ArrayList<>();
 
     @Builder
     public UserDTO(User user) {
@@ -52,9 +52,9 @@ public class UserDTO {
         for(UserCategory uc: user.getUserCategories()) {
             this.userCategories.add(new UserCategoryDTO(uc));
         }
-        for(UserBadge ub: user.getUserBadges()) {
-            this.userBadges.add(new UserBadgeDTO(ub));
-        }
+//        for(UserBadge ub: user.getUserBadges()) {
+//            this.userBadges.add(new UserBadgeDTO(ub));
+//        }
     }
 
     @Getter

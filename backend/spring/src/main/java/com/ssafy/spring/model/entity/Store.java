@@ -13,7 +13,7 @@ public class Store {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "store_id")
-    private Long id;
+    private Long storeId;
 
     private String name;
     private String branch;
@@ -33,8 +33,8 @@ public class Store {
     private List<StoreCategory> storeCategories = new ArrayList<>();
 
     @Builder
-    public Store(Long id, String name, String branch, String area, String tel, String address, Float latitude, Float longitude, List<Menu> menus, List<Review> reviews, List<StoreCategory> storeCategories) {
-        this.id = id;
+    public Store(Long storeId, String name, String branch, String area, String tel, String address, Float latitude, Float longitude, List<Menu> menus, List<Review> reviews, List<StoreCategory> storeCategories) {
+        this.storeId = storeId;
         this.name = name;
         this.branch = branch;
         this.area = area;
