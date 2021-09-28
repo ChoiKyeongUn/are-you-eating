@@ -11,7 +11,7 @@ public class StoreCategory {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "store_category_id")
-    private Long id;
+    private Long storeCategoryId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
@@ -22,8 +22,8 @@ public class StoreCategory {
     private Category category;
 
     @Builder
-    public StoreCategory(Long id, Store store, Category category) {
-        this.id = id;
+    public StoreCategory(Long storeCategoryId, Store store, Category category) {
+        this.storeCategoryId = storeCategoryId;
         this.store = store;
         this.category = category;
     }
