@@ -82,15 +82,13 @@ public class UserController {
             @ApiResponse(responseCode = "403", description = "토큰 없음"),
             @ApiResponse(responseCode = "500", description = "서버 오류")})
     public ResponseEntity<Void> deleteUser(@Parameter(hidden = true) Authentication authentication) {
-        if(authentication == null) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
+        ResponseEntity<UserDetailsImpl> userDetailsResponseEntity = JwtTokenProvider.judgeAuthorization(authentication);
+        if(userDetailsResponseEntity.getBody() == null) {
+            return new ResponseEntity<>(userDetailsResponseEntity.getStatusCode());
         }
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getDetails();
-
-        if(userDetails == null) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
+        UserDetailsImpl userDetails = userDetailsResponseEntity.getBody();
 
         boolean flag = userService.deleteUserByUserId(userDetails.getUsername());
         if(!flag) {
@@ -98,5 +96,63 @@ public class UserController {
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("")
+    @Operation(summary = "마이페이지", description = "자신의 정보를 조회한다.", responses = {
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "401", description = "인증 실패"),
+            @ApiResponse(responseCode = "403", description = "토큰 없음"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")})
+    public ResponseEntity<UserDTO> getProfileMyself(@Parameter(hidden = true) Authentication authentication) {
+        ResponseEntity<UserDetailsImpl> userDetailsResponseEntity = JwtTokenProvider.judgeAuthorization(authentication);
+        if(userDetailsResponseEntity.getBody() == null) {
+            return new ResponseEntity<>(null, userDetailsResponseEntity.getStatusCode());
+        }
+
+        UserDetailsImpl userDetails = userDetailsResponseEntity.getBody();
+        return new ResponseEntity<>(new UserDTO(userService.getUserByUserId(userDetails.getUsername())), HttpStatus.OK);
+    }
+
+    @GetMapping("/{userId}/profile")
+    @Operation(summary = "다른 회원 정보 검색", description = "다른 회원의 정보를 검색한다", responses = {
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "401", description = "인증 실패"),
+            @ApiResponse(responseCode = "403", description = "토큰 없음"),
+            @ApiResponse(responseCode = "409", description = "해당 회원 정보 없음"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")})
+    public ResponseEntity<UserDTO> getProfile(@Parameter(hidden = true) Authentication authentication,
+                                              @PathVariable("userId") Long userId) {
+        ResponseEntity<UserDetailsImpl> userDetailsResponseEntity = JwtTokenProvider.judgeAuthorization(authentication);
+        if(userDetailsResponseEntity.getBody() == null) {
+            return new ResponseEntity<>(null, userDetailsResponseEntity.getStatusCode());
+        }
+
+        User find = userService.getUserById(userId);
+        if(find == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(new UserDTO(find), HttpStatus.OK);
+    }
+
+    @PatchMapping("")
+    @Operation(summary = "회원 정보 수정", description = "회원의 정보를 수정한다.", responses = {
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "401", description = "인증 실패"),
+            @ApiResponse(responseCode = "403", description = "토큰 없음"),
+            @ApiResponse(responseCode = "409", description = "해당 회원 정보 없음"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")})
+    public ResponseEntity<UserDTO> modifyProfile(@Parameter(hidden = true) Authentication authentication,
+                                                 @Parameter(name = "수정할 정보", required = true) @RequestBody UserDTO.SignupPostReq modifyInfo) {
+        ResponseEntity<UserDetailsImpl> userDetailsResponseEntity = JwtTokenProvider.judgeAuthorization(authentication);
+        if(userDetailsResponseEntity.getBody() == null) {
+            return new ResponseEntity<>(null, userDetailsResponseEntity.getStatusCode());
+        }
+        Long userId = userService.modify(userDetailsResponseEntity.getBody().getUsername(), modifyInfo);
+        if(userId == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(new UserDTO(userService.getUserById(userId)), HttpStatus.OK);
     }
 }

@@ -19,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserDTO {
 
+    private Long userId;
     private String id;
     @JsonIgnore
     private String password;
@@ -36,6 +37,7 @@ public class UserDTO {
 
     @Builder
     public UserDTO(User user) {
+        this.userId = user.getUserId();
         this.id = user.getId();
         this.nickname = user.getNickname();
         this.gender = user.getGender();
@@ -109,6 +111,20 @@ public class UserDTO {
             this.address = address;
             this.latitude = latitude;
             this.longitude = longitude;
+        }
+
+        @Override
+        public String toString() {
+            return "SignupPostReq{" +
+                    "id='" + id + '\'' +
+                    ", password='" + password + '\'' +
+                    ", nickname='" + nickname + '\'' +
+                    ", gender='" + gender + '\'' +
+                    ", birth=" + birth +
+                    ", address='" + address + '\'' +
+                    ", latitude=" + latitude +
+                    ", longitude=" + longitude +
+                    '}';
         }
     }
 }
