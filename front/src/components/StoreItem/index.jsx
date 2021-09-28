@@ -4,7 +4,7 @@ export default function StoreItem({ store }) {
   return (
     <Wrapper>
       <ImgContainer>
-        <img src={store.img} alt="" />
+        <img src={store.img} alt="asd" />
       </ImgContainer>
       <InfoContainer>
         <div className="top">

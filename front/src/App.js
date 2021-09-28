@@ -10,7 +10,7 @@ import SignUp from "./pages/SignUp/index.jsx";
 import MyPage from "./pages/MyPage/index.jsx";
 
 import PreferenceTest from "./pages/PreferenceTest/index.jsx";
-
+import Store from "./pages/Store/index.jsx";
 
 function App() {
   return (
@@ -23,9 +23,8 @@ function App() {
 
         <PublicRoute path="/mypage" exact={true} component={MyPage} />
 
-
         <PublicRoute path="/test" exact={true} component={PreferenceTest} />
-
+        <PublicRoute path="/store" exact={true} component={Store} />
       </Router>
     </div>
   );
