@@ -1,5 +1,6 @@
 package com.ssafy.spring.model.entity;
 
+import com.ssafy.spring.model.dto.ReviewDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -34,5 +35,11 @@ public class Review {
         this.score = score;
         this.content = content;
         this.regTime = regTime;
+    }
+
+    public void modifyReview(ReviewDTO.WriteReviewReq req){
+        this.setScore(req.getScore());
+        this.setContent(req.getContent());
+        this.setRegTime(req.getRegTime());
     }
 }
