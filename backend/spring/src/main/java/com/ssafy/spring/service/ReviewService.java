@@ -9,7 +9,7 @@ public interface ReviewService {
     // 리뷰 작성
     Long writeReview(String id, long storeId, ReviewDTO.WriteReviewReq reviewInfo);
     // 리뷰 수정
-//    Long modifyReview(String id, ReviewDTO reviewDTO);
+    Long modifyReview(long reviewId, ReviewDTO.WriteReviewReq req);
     // 리뷰 삭제
     Boolean deleteReview(long id);
     // 사용자 리뷰 전체 조회

@@ -28,7 +28,7 @@ public class ReviewController {
             @ApiResponse(responseCode = "403", description = "토큰 없음"),
             @ApiResponse(responseCode = "409", description = "해당 회원 정보 없음"),
             @ApiResponse(responseCode = "500", description = "서버 오류")})
-    public ResponseEntity<ReviewDTO> writeReview(@Parameter(hidden = true)  Authentication authentication,
+    public ResponseEntity<Void> writeReview(@Parameter(hidden = true)  Authentication authentication,
                                                   @PathVariable("store_id") long storeId,
                                                   @Parameter(name = "리뷰 정보", required = true) @RequestBody ReviewDTO.WriteReviewReq req ) {
         ResponseEntity<UserDetailsImpl> userDetailsResponseEntity = JwtTokenProvider.judgeAuthorization(authentication);
@@ -43,6 +43,28 @@ public class ReviewController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PatchMapping("/{review_id}")
+    @Operation(summary = "리뷰 수정", description = "내용을 입력하여 리뷰를 수정한다.", responses = {
+            @ApiResponse(responseCode = "200", description = "수정 성공"),
+            @ApiResponse(responseCode = "401", description = "인증 실패"),
+            @ApiResponse(responseCode = "403", description = "토큰 없음"),
+            @ApiResponse(responseCode = "409", description = "해당 회원 정보 없음"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")})
+    public ResponseEntity<ReviewDTO.WriteReviewReq> modifyReview(@Parameter(hidden = true)  Authentication authentication,
+                                                 @PathVariable("review_id") long reviewId,
+                                                 @Parameter(name = "리뷰 정보", required = true) @RequestBody ReviewDTO.WriteReviewReq modifyReviewInfo ) {
+        ResponseEntity<UserDetailsImpl> userDetailsResponseEntity = JwtTokenProvider.judgeAuthorization(authentication);
+        if(userDetailsResponseEntity.getBody() == null) {
+            return new ResponseEntity<>(null, userDetailsResponseEntity.getStatusCode());
+        }
+
+        Long id = reviewService.modifyReview(reviewId, modifyReviewInfo);
+        if (id==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @DeleteMapping("/{review_id}")
     @Operation(summary = "리뷰 삭제", description = "해당 리뷰를 삭제한다.", responses = {
             @ApiResponse(responseCode = "200", description = "삭제 성공"),
@@ -50,7 +72,7 @@ public class ReviewController {
             @ApiResponse(responseCode = "403", description = "토큰 없음"),
             @ApiResponse(responseCode = "409", description = "해당 회원 정보 없음"),
             @ApiResponse(responseCode = "500", description = "서버 오류")})
-    public ResponseEntity<ReviewDTO> deleteReview(@Parameter(hidden = true)  Authentication authentication,
+    public ResponseEntity<Void> deleteReview(@Parameter(hidden = true)  Authentication authentication,
                                                   @PathVariable("review_id") long reviewId) {
         ResponseEntity<UserDetailsImpl> userDetailsResponseEntity = JwtTokenProvider.judgeAuthorization(authentication);
         if(userDetailsResponseEntity.getBody() == null) {
