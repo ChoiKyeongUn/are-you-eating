@@ -2,6 +2,7 @@ package com.ssafy.spring.controller;
 
 import com.ssafy.spring.common.auth.UserDetailsImpl;
 import com.ssafy.spring.common.util.JwtTokenProvider;
+import com.ssafy.spring.model.dto.CategoryDTO;
 import com.ssafy.spring.model.dto.UserCategoryDTO;
 import com.ssafy.spring.model.dto.UserDTO;
 import com.ssafy.spring.model.entity.User;
@@ -16,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -167,7 +170,7 @@ public class UserController {
             @ApiResponse(responseCode = "409", description = "해당 회원 정보 없음"),
             @ApiResponse(responseCode = "500", description = "서버 오류")})
     public ResponseEntity<Void> registerCategory(@Parameter(hidden = true) Authentication authentication,
-                                                 @Parameter(name = "등록할 선호 카테고리들", required = true) @RequestBody UserCategoryDTO.RegisterCategoryPostReq req) {
+                                                 @Parameter(name = "등록할 선호 카테고리들", required = true) @RequestBody CategoryDTO.RegisterCategoryReq req) {
         System.out.println("카테고리" + req.getCategories());
         ResponseEntity<UserDetailsImpl> userDetailsResponseEntity = JwtTokenProvider.judgeAuthorization(authentication);
         if(userDetailsResponseEntity.getBody() == null) {

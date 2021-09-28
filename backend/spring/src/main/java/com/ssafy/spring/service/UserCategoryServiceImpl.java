@@ -1,5 +1,6 @@
 package com.ssafy.spring.service;
 
+import com.ssafy.spring.model.dto.UserCategoryDTO;
 import com.ssafy.spring.model.entity.Category;
 import com.ssafy.spring.model.entity.User;
 import com.ssafy.spring.model.entity.UserCategory;
@@ -32,8 +33,8 @@ public class UserCategoryServiceImpl implements UserCategoryService {
         }
         User user = findUser.get();
         user.setIsLoggedIn(true);
-        for(String categoryName: categories) {
-            Optional<Category> findCategory = categoryRepository.findByName(categoryName);
+        for(String c: categories) {
+            Optional<Category> findCategory = categoryRepository.findByName(c);
             if(!findCategory.isPresent()) {
                 return HttpStatus.INTERNAL_SERVER_ERROR;
             }
