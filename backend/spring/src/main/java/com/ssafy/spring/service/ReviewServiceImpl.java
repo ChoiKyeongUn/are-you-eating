@@ -39,17 +39,17 @@ public class ReviewServiceImpl implements ReviewService {
         return review.getReviewId();
     }
 
-//    @Override
-//    @Transactional
-//    public Long modifyReview(String id, ReviewDTO reviewDTO) {
-//        Optional<Review> review = reviewRepo.findByReviewId(id);
-//        if (review == null){
-//            return null;
-//        }
-//
-//
-//        return null;
-//    }
+    @Override
+    @Transactional
+    public Long modifyReview(long reviewId, ReviewDTO.WriteReviewReq req) {
+        Optional<Review> oreview = reviewRepo.findById(reviewId);
+        if (oreview == null){
+            return null;
+        }
+        Review review = oreview.get();
+        review.modifyReview(req);
+        return review.getReviewId();
+    }
 
     @Override
     @Transactional
