@@ -16,7 +16,7 @@ public class MenuDTO {
 
     @Builder
     public MenuDTO(Menu menu) {
-        this.storeId = menu.getStore().getId();
+        this.storeId = menu.getStore().getStoreId();
         this.name = menu.getName();
         this.price = menu.getPrice();
     }
