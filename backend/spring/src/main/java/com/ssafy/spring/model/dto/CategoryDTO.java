@@ -22,7 +22,7 @@ public class CategoryDTO {
 
     @Builder
     public CategoryDTO(Category category) {
-        this.categoryId = category.getId();
+        this.categoryId = category.getCategoryId();
         this.name = category.getName();
         for(StoreCategory sc: category.getStoreCategories()) {
             this.storeCategories.add(new StoreCategoryDTO(sc));

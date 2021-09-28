@@ -31,7 +31,7 @@ public class StoreDTO {
 
     @Builder
     public StoreDTO(Store store) {
-        this.storeId = store.getId();
+        this.storeId = store.getStoreId();
         this.name = store.getName();
         this.branch = store.getBranch();
         this.area = store.getArea();
