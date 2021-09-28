@@ -11,7 +11,7 @@ public interface ReviewService {
     // 리뷰 수정
 //    Long modifyReview(String id, ReviewDTO reviewDTO);
     // 리뷰 삭제
-//    Boolean deleteReview(String id);
+    Boolean deleteReview(long id);
     // 사용자 리뷰 전체 조회
 //    List<Review> getTotalReview();
     // 음식점 리뷰 조회
