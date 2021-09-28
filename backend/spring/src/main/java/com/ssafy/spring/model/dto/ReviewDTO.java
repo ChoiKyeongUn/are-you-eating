@@ -12,16 +12,16 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewDTO {
 
-    private StoreDTO store;
-    private UserDTO user;
+    private Long storeId;
+    private Long userId;
     private Integer score;
     private String content;
     private LocalDateTime regTime;
 
     @Builder
     public ReviewDTO(Review review) {
-        this.store = new StoreDTO(review.getStore());
-        this.user = new UserDTO(review.getUser());
+        this.storeId = review.getStore().getId();
+        this.userId = review.getUser().getUserId();
         this.score = review.getScore();
         this.content = review.getContent();
         this.regTime = review.getRegTime();

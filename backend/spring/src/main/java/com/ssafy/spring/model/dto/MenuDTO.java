@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MenuDTO {
 
-    private StoreDTO store;
+    private Long storeId;
     private String name;
     private Integer price;
 
     @Builder
     public MenuDTO(Menu menu) {
-        this.store = new StoreDTO(menu.getStore());
+        this.storeId = menu.getStore().getId();
         this.name = menu.getName();
         this.price = menu.getPrice();
     }

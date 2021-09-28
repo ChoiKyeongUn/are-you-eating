@@ -13,13 +13,13 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserCategoryDTO {
 
-    private UserDTO user;
-    private CategoryDTO category;
+    private Long userId;
+    private Long categoryId;
 
     @Builder
     public UserCategoryDTO(UserCategory userCategory) {
-        this.user = new UserDTO(userCategory.getUser());
-        this.category = new CategoryDTO(userCategory.getCategory());
+        this.userId = userCategory.getUser().getUserId();
+        this.categoryId = userCategory.getCategory().getId();
     }
 
     @Getter

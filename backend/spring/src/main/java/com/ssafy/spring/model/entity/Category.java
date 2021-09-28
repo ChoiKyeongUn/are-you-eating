@@ -13,7 +13,7 @@ public class Category {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
-    private Long id;
+    private Long categoryId;
 
     private String name;
 
@@ -24,8 +24,8 @@ public class Category {
     private List<UserCategory> userCategories = new ArrayList<>();
 
     @Builder
-    public Category(Long id, String name, List<StoreCategory> storeCategories, List<UserCategory> userCategories) {
-        this.id = id;
+    public Category(Long categoryId, String name, List<StoreCategory> storeCategories, List<UserCategory> userCategories) {
+        this.categoryId = categoryId;
         this.name = name;
         this.storeCategories = storeCategories;
         this.userCategories = userCategories;
