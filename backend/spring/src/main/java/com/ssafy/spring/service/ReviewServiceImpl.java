@@ -38,7 +38,7 @@ public class ReviewServiceImpl implements ReviewService {
         review = reviewRepo.save(review);
         return review.getReviewId();
     }
-//
+
 //    @Override
 //    @Transactional
 //    public Long modifyReview(String id, ReviewDTO reviewDTO) {
@@ -50,18 +50,18 @@ public class ReviewServiceImpl implements ReviewService {
 //
 //        return null;
 //    }
-//
-//    @Override
-//    @Transactional
-//    public Boolean deleteReview(String id) {
-//        Optional<Review> review = reviewRepo.findByReviewId(id);
-//        if(review.isPresent()){
-//            reviewRepo.deleteById(review.get().getReviewId());
-//            return true;
-//        }
-//        return false;
-//    }
-//
+
+    @Override
+    @Transactional
+    public Boolean deleteReview(long reviewId) {
+        Optional<Review> review = reviewRepo.findById(reviewId);
+        if(review.isPresent()){
+            reviewRepo.deleteById(review.get().getReviewId());
+            return true;
+        }
+        return false;
+    }
+
 //    @Override
 //    public List<Review> getTotalReview() {
 //        return reviewRepo.findAll();
