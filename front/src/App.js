@@ -7,6 +7,7 @@ import Header from "./components/Header/index.jsx";
 import LogIn from "./pages/LogIn/index.jsx";
 import SignUp from "./pages/SignUp/index.jsx";
 import PreferenceTest from "./pages/PreferenceTest/index.jsx";
+import Store from "./pages/Store/index.jsx";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <PublicRoute path="/login" exact={true} component={LogIn} />
         <PublicRoute path="/signup" exact={true} component={SignUp} />
         <PublicRoute path="/test" exact={true} component={PreferenceTest} />
+        <PublicRoute path="/store" exact={true} component={Store} />
       </Router>
     </div>
   );
