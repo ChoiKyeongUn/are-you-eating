@@ -1,5 +1,6 @@
 package com.ssafy.spring.service;
 
+import com.ssafy.spring.model.dto.UserCategoryDTO;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
