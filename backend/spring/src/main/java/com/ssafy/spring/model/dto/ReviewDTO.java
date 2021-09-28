@@ -20,7 +20,7 @@ public class ReviewDTO {
 
     @Builder
     public ReviewDTO(Review review) {
-        this.storeId = review.getStore().getId();
+        this.storeId = review.getStore().getStoreId();
         this.userId = review.getUser().getUserId();
         this.score = review.getScore();
         this.content = review.getContent();
