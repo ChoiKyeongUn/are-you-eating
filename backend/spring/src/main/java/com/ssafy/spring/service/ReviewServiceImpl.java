@@ -67,8 +67,8 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewRepo.findByUserId(id);
     }
 
-    // @Override
-    // public List<ReviewDTO> getStoreReview(long storeId) {
-    //     return reviewRepo.findByStoreId(storeId);
-    // }
+    @Override
+    public List<ReviewDTO> getStoreReview(long storeId) {
+        return reviewRepo.findByStoreId(storeId);
+    }
 }
