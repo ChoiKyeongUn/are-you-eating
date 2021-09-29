@@ -75,7 +75,7 @@ button{
 
 export const MyReviewBox = styled.div`
   width: 1000px;
-  height: 430px;
+  height: 100%;
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0);
