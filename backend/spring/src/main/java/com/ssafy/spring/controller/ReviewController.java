@@ -109,24 +109,24 @@ public class ReviewController {
         return new ResponseEntity<>(totalList,HttpStatus.OK);
     }
 
-    // @GetMapping("/{store_id}")
-    // @Operation(summary = "음식점 리뷰 조회", description = "음식점의 모든 리뷰를 조회한다.", responses = {
-    //         @ApiResponse(responseCode = "200", description = "조회 성공"),
-    //         @ApiResponse(responseCode = "401", description = "인증 실패"),
-    //         @ApiResponse(responseCode = "403", description = "토큰 없음"),
-    //         @ApiResponse(responseCode = "409", description = "해당 회원 정보 없음"),
-    //         @ApiResponse(responseCode = "500", description = "서버 오류")})
-    // public ResponseEntity<List<ReviewDTO>> getStoreReview(@Parameter(hidden = true)  Authentication authentication,
-    //                                                       @PathVariable("store_id") long storeId) {
-    //     ResponseEntity<UserDetailsImpl> userDetailsResponseEntity = JwtTokenProvider.judgeAuthorization(authentication);
-    //     if(userDetailsResponseEntity.getBody() == null) {
-    //         return new ResponseEntity<>(null, userDetailsResponseEntity.getStatusCode());
-    //     }
+    @GetMapping("/{store_id}")
+    @Operation(summary = "음식점 리뷰 조회", description = "음식점의 모든 리뷰를 조회한다.", responses = {
+            @ApiResponse(responseCode = "200", description = "조회 성공"),
+            @ApiResponse(responseCode = "401", description = "인증 실패"),
+            @ApiResponse(responseCode = "403", description = "토큰 없음"),
+            @ApiResponse(responseCode = "409", description = "해당 회원 정보 없음"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")})
+    public ResponseEntity<List<ReviewDTO>> getStoreReview(@Parameter(hidden = true)  Authentication authentication,
+                                                          @PathVariable("store_id") long storeId) {
+        ResponseEntity<UserDetailsImpl> userDetailsResponseEntity = JwtTokenProvider.judgeAuthorization(authentication);
+        if(userDetailsResponseEntity.getBody() == null) {
+            return new ResponseEntity<>(null, userDetailsResponseEntity.getStatusCode());
+        }
 
-    //     List<ReviewDTO> storeList = reviewService.getStoreReview(storeId);
-    //     if (storeList == null || storeList.size() == 0){
-    //         return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
-    //     }
-    //     return new ResponseEntity<>(storeList,HttpStatus.OK);
-    // }
+        List<ReviewDTO> storeList = reviewService.getStoreReview(storeId);
+        if (storeList == null || storeList.size() == 0){
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(storeList,HttpStatus.OK);
+    }
 }

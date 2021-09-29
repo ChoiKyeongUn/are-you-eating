@@ -15,5 +15,5 @@ public interface ReviewService {
     // 사용자 리뷰 전체 조회
     List<ReviewDTO> getTotalReview(String id);
     // 음식점 리뷰 조회
-    // List<ReviewDTO> getStoreReview(long storeId);
+    List<ReviewDTO> getStoreReview(long storeId);
 }
