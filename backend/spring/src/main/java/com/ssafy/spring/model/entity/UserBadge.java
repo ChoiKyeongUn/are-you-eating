@@ -11,7 +11,7 @@ public class UserBadge {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_badge_id")
-    private long id;
+    private long userBadgeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -22,8 +22,8 @@ public class UserBadge {
     private Badge badge;
 
     @Builder
-    public UserBadge(long id, User user, Badge badge) {
-        this.id = id;
+    public UserBadge(long userBadgeId, User user, Badge badge) {
+        this.userBadgeId = userBadgeId;
         this.user = user;
         this.badge = badge;
     }

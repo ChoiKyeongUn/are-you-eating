@@ -44,8 +44,8 @@ services:
       SPRING_DATASOURCE_URL: "jdbc:mysql://54.180.160.233:3306/eatrice?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true"
       server.address: 0.0.0.0
       # 의존 컨테이너
-    depends_on:
-      - db
+    # depends_on:
+    #   - db
     #   - kurento
     networks:
       - backend

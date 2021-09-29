@@ -1,5 +1,6 @@
 package com.ssafy.spring.service;
 
+import com.ssafy.spring.model.dto.RankingDTO;
 import com.ssafy.spring.model.dto.UserDTO;
 import com.ssafy.spring.model.entity.User;
 import com.ssafy.spring.model.repository.UserRepository;
@@ -8,7 +9,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -74,5 +77,15 @@ public class UserServiceImpl implements UserService {
         }
         user.modify(modifyInfo);
         return user.getUserId();
+    }
+
+    @Override
+    public List<RankingDTO> getRanking() {
+        List<Object[]> ranking = userRepo.getRanking();
+        List<RankingDTO> result = new ArrayList<>();
+        for(Object o[]: ranking) {
+            result.add(new RankingDTO(((BigInteger) o[0]).longValue(), (String) o[1], ((BigInteger) o[2]).intValue()));
+        }
+        return result;
     }
 }

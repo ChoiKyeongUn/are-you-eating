@@ -16,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class StoreDTO {
 
+    private Long storeId;
     private String name;
     private String branch;
     private String area;
@@ -30,6 +31,7 @@ public class StoreDTO {
 
     @Builder
     public StoreDTO(Store store) {
+        this.storeId = store.getStoreId();
         this.name = store.getName();
         this.branch = store.getBranch();
         this.area = store.getArea();
