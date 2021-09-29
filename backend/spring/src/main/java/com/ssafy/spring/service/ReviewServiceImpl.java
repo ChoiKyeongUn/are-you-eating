@@ -62,8 +62,13 @@ public class ReviewServiceImpl implements ReviewService {
         return false;
     }
 
-//    @Override
-//    public List<Review> getTotalReview() {
-//        return reviewRepo.findAll();
-//    }
+    @Override
+    public List<ReviewDTO> getTotalReview(String id) {
+        return reviewRepo.findByUserId(id);
+    }
+
+    // @Override
+    // public List<ReviewDTO> getStoreReview(long storeId) {
+    //     return reviewRepo.findByStoreId(storeId);
+    // }
 }
