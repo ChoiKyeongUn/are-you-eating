@@ -1,12 +1,16 @@
 import styled from "styled-components";
 import { colors } from "../../styles";
 
+export const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+`;
+
 export const Wrapper = styled.div`
   width: 80vw;
   min-height: 580px;
-  position: relative;
-  left: 50%;
-  transform: translate(-50%, 20px);
+  background-color: white;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   background-image: url("images/sign_bg.png");
   background-repeat: no-repeat;
