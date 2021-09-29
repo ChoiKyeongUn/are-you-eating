@@ -20,33 +20,6 @@ export default function LogIn() {
  
   const [modifyMode, setModifyMode] = useState(false);
 
-//   function passwordValidator(value) {
-//     if (value.length < 8 || value.length > 30) {
-//       return {
-//         isValid: false,
-//         errorMessage: "8글자 이상 30글자 이하로 입력해주세요",
-//       };
-//     } else {
-//       return {
-//         isValid: true,
-//         errorMessage: "",
-//       };
-//     }
-//   }
-
-//   function idValidator(value) {
-//     if (value.length < 4 || value.length > 15) {
-//       return {
-//         isValid: false,
-//         errorMessage: "4글자 이상 15글자 이하로 입력해주세요",
-//       };
-//     } else {
-//       return {
-//         isValid: true,
-//         errorMessage: "",
-//       };
-//     }
-//   }
   return (
 <div>
       <MyInfoBox>
@@ -155,6 +128,8 @@ export default function LogIn() {
                 ...더보기
                 </button>
               </div>
+              <br/>
+              <hr/>
  
           </MyReview>
       </MyReviewBox>

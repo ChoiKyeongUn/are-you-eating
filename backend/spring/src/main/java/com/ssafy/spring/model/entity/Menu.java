@@ -11,7 +11,7 @@ public class Menu {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "menu_id")
-    private Long id;
+    private Long menuId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
@@ -21,8 +21,8 @@ public class Menu {
     private Integer price;
 
     @Builder
-    public Menu(Long id, Store store, String name, Integer price) {
-        this.id = id;
+    public Menu(Long menuId, Store store, String name, Integer price) {
+        this.menuId = menuId;
         this.store = store;
         this.name = name;
         this.price = price;
