@@ -18,6 +18,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
                    "join user as u " +
                    "on r.user_id = u.user_id " +
                    "group by u.user_id " +
-                   "limit 5")
+                   "limit 10")
     List<Object[]> getRanking();
 }
