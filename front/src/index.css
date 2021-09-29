@@ -6,6 +6,11 @@
   padding: 0;
 }
 
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
 body {
   color: #1f2d3d;
   margin: 0;
@@ -37,11 +42,15 @@ input,
 textarea {
   font-family: "Noto Sans KR", sans-serif;
 }
+
+#root {
+  width: 100%;
+  height: 100%;
+}
 .App {
   margin-top: 65px;
-  margin-bottom: 40px;
   overflow: auto;
-  height: 90vh;
+  height: 100%;
 }
 
 /* custom scrollbar */
