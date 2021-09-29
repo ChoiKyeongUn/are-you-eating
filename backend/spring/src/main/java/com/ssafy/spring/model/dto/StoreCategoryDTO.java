@@ -10,12 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class StoreCategoryDTO {
 
-    private StoreDTO store;
-    private CategoryDTO category;
+    private String name;
 
     @Builder
     public StoreCategoryDTO(StoreCategory storeCategory) {
-        this.store = new StoreDTO(storeCategory.getStore());
-        this.category = new CategoryDTO(storeCategory.getCategory());
+        this.name = storeCategory.getCategory().getName();
     }
 }

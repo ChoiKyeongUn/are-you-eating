@@ -13,7 +13,7 @@ public class Badge {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "badge_id")
-    private Long id;
+    private Long badgeId;
 
     private String name;
 
@@ -21,8 +21,8 @@ public class Badge {
     private List<UserBadge> userBadges = new ArrayList<>();
 
     @Builder
-    public Badge(Long id, String name, List<UserBadge> userBadges) {
-        this.id = id;
+    public Badge(Long badgeId, String name, List<UserBadge> userBadges) {
+        this.badgeId = badgeId;
         this.name = name;
         this.userBadges = userBadges;
     }

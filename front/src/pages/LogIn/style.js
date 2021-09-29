@@ -9,7 +9,7 @@ export const Container = styled.div`
 
 export const Wrapper = styled.div`
   width: 80vw;
-  min-height: 580px;
+  height: 580px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   background-image: url("images/sign_bg.png");

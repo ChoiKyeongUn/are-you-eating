@@ -10,6 +10,10 @@ import SignUp from "./pages/SignUp/index.jsx";
 import MyPage from "./pages/MyPage/index.jsx";
 
 import PreferenceTest from "./pages/PreferenceTest/index.jsx";
+
+import Ranking from "./pages/Ranking/index.jsx";
+import EatingHabitsReport from "./pages/EatingHabitsReport/index.jsx";
+
 import Store from "./pages/Store/index.jsx";
 
 function App() {
@@ -20,10 +24,13 @@ function App() {
         <PublicRoute path="/" exact={true} component={Main} />
         <PublicRoute path="/login" exact={true} component={LogIn} />
         <PublicRoute path="/signup" exact={true} component={SignUp} />
-
         <PublicRoute path="/mypage" exact={true} component={MyPage} />
 
         <PublicRoute path="/test" exact={true} component={PreferenceTest} />
+
+        <PublicRoute path="/ranking" exact={true} component={Ranking} />
+        <PublicRoute path="/report" exact={true} component={EatingHabitsReport} />
+
         <PublicRoute path="/store" exact={true} component={Store} />
       </Router>
     </div>
