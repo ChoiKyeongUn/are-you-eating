@@ -5,11 +5,11 @@ const useInput = (initialValue, validator) => {
   const [isValid, setIsValid] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const onChange = (e) => {
+  const onChange = async (e) => {
     const value = e.target.value;
     setValue(e.target.value);
     if (validator) {
-      const result = validator(value);
+      const result = await validator(value);
       setIsValid(result.isValid);
       setErrorMessage(result.errorMessage);
     }
