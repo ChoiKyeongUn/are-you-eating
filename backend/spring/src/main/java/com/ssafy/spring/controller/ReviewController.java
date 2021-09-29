@@ -3,6 +3,7 @@ package com.ssafy.spring.controller;
 import com.ssafy.spring.common.auth.UserDetailsImpl;
 import com.ssafy.spring.common.util.JwtTokenProvider;
 import com.ssafy.spring.model.dto.ReviewDTO;
+import com.ssafy.spring.model.entity.Review;
 import com.ssafy.spring.service.ReviewService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -13,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -86,4 +89,44 @@ public class ReviewController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("")
+    @Operation(summary = "사용자 리뷰 조회", description = "사용자가 작성한 리뷰를 조회한다.", responses = {
+            @ApiResponse(responseCode = "200", description = "조회 성공"),
+            @ApiResponse(responseCode = "401", description = "인증 실패"),
+            @ApiResponse(responseCode = "403", description = "토큰 없음"),
+            @ApiResponse(responseCode = "409", description = "해당 회원 정보 없음"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")})
+    public ResponseEntity<List<ReviewDTO>> getTotalReview(@Parameter(hidden = true)  Authentication authentication) {
+        ResponseEntity<UserDetailsImpl> userDetailsResponseEntity = JwtTokenProvider.judgeAuthorization(authentication);
+        if(userDetailsResponseEntity.getBody() == null) {
+            return new ResponseEntity<>(null, userDetailsResponseEntity.getStatusCode());
+        }
+        String userId = userDetailsResponseEntity.getBody().getUsername();
+        List<ReviewDTO> totalList = reviewService.getTotalReview(userId);
+        if (totalList == null || totalList.size() == 0){
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(totalList,HttpStatus.OK);
+    }
+
+    // @GetMapping("/{store_id}")
+    // @Operation(summary = "음식점 리뷰 조회", description = "음식점의 모든 리뷰를 조회한다.", responses = {
+    //         @ApiResponse(responseCode = "200", description = "조회 성공"),
+    //         @ApiResponse(responseCode = "401", description = "인증 실패"),
+    //         @ApiResponse(responseCode = "403", description = "토큰 없음"),
+    //         @ApiResponse(responseCode = "409", description = "해당 회원 정보 없음"),
+    //         @ApiResponse(responseCode = "500", description = "서버 오류")})
+    // public ResponseEntity<List<ReviewDTO>> getStoreReview(@Parameter(hidden = true)  Authentication authentication,
+    //                                                       @PathVariable("store_id") long storeId) {
+    //     ResponseEntity<UserDetailsImpl> userDetailsResponseEntity = JwtTokenProvider.judgeAuthorization(authentication);
+    //     if(userDetailsResponseEntity.getBody() == null) {
+    //         return new ResponseEntity<>(null, userDetailsResponseEntity.getStatusCode());
+    //     }
+
+    //     List<ReviewDTO> storeList = reviewService.getStoreReview(storeId);
+    //     if (storeList == null || storeList.size() == 0){
+    //         return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
+    //     return new ResponseEntity<>(storeList,HttpStatus.OK);
+    // }
 }
