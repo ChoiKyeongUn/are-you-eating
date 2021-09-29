@@ -2,11 +2,13 @@ import styled from "styled-components";
 import { colors } from "../../styles";
 
 export const Wrapper = styled.div`
-  width: 80vw;
-  min-height: 580px;
-  position: relative;
+  width: 1000px;
+  height: 580px;
+  position: absolute;
   left: 50%;
-  transform: translate(-50%, 20px);
+  transform: translate(-50%, 0);
+  margin-top: 50px;
+  background-color: white;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   background-image: url("images/sign_bg.png");
   background-repeat: no-repeat;
