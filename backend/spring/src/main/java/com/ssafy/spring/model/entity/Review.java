@@ -1,5 +1,6 @@
 package com.ssafy.spring.model.entity;
 
+import com.ssafy.spring.model.dto.ReviewDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,7 +13,7 @@ public class Review {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id")
-    private Long id;
+    private Long reviewId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
@@ -27,12 +28,18 @@ public class Review {
     private LocalDateTime regTime;
 
     @Builder
-    public Review(Long id, Store store, User user, Integer score, String content, LocalDateTime regTime) {
-        this.id = id;
+    public Review(Long reviewId, Store store, User user, Integer score, String content, LocalDateTime regTime) {
+        this.reviewId = reviewId;
         this.store = store;
         this.user = user;
         this.score = score;
         this.content = content;
         this.regTime = regTime;
+    }
+
+    public void modifyReview(ReviewDTO.WriteReviewReq req){
+        this.setScore(req.getScore());
+        this.setContent(req.getContent());
+        this.setRegTime(req.getRegTime());
     }
 }
