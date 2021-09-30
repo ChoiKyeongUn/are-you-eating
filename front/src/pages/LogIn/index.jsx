@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import useInput from "../../hooks/useInput";
 import { useHistory } from "react-router";
 import {
@@ -9,39 +10,57 @@ import {
   StyledInput,
   Wrapper,
 } from "./style";
+import { url } from "../../api";
+import { login } from "../../actions/User";
 
 export default function LogIn() {
   const id = useInput("");
   const password = useInput("");
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  function passwordValidator(value) {
-    if (value.length < 8 || value.length > 30) {
-      return {
-        isValid: false,
-        errorMessage: "8글자 이상 30글자 이하로 입력해주세요",
-      };
-    } else {
-      return {
-        isValid: true,
-        errorMessage: "",
-      };
-    }
+  function doLogin(data) {
+    const user = {
+      id: id.value,
+      token: data.token,
+      isLoggedin: data.isLoggedin,
+    };
+    dispatch(login(user));
+    if (data.isLoggedin) history.replace("/");
+    else history.replace("/test");
   }
 
-  function idValidator(value) {
-    if (value.length < 4 || value.length > 15) {
-      return {
-        isValid: false,
-        errorMessage: "4글자 이상 15글자 이하로 입력해주세요",
-      };
-    } else {
-      return {
-        isValid: true,
-        errorMessage: "",
-      };
-    }
+  function handleKeyPress(e) {
+    if (e.key !== "Enter") return;
+    handleLoginButtonClick();
   }
+
+  function handleLoginButtonClick() {
+    fetch(`${url}/api/users/signin`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: id.value,
+        password: password.value,
+      }),
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          return res.json();
+        } else {
+          alert("아이디와 비밀번호를 확인하세요.");
+        }
+      })
+      .then((data) => {
+        if (data) {
+          doLogin(data);
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
   return (
     <Container>
       <Wrapper>
@@ -56,6 +75,7 @@ export default function LogIn() {
                 placeholder="아이디"
                 value={id.value}
                 onChange={id.onChange}
+                onKeyPress={handleKeyPress}
               ></StyledInput>
               <div className="message">{id.errorMessage}</div>
             </InputWithMessage>
@@ -65,12 +85,13 @@ export default function LogIn() {
                 value={password.value}
                 onChange={password.onChange}
                 type="password"
+                onKeyPress={handleKeyPress}
               ></StyledInput>
               <div className="message">{password.errorMessage}</div>
             </InputWithMessage>
           </div>
           <div className="buttons">
-            <Button>로그인</Button>
+            <Button onClick={handleLoginButtonClick}>로그인</Button>
             <Button
               outline
               onClick={() => {
