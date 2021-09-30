@@ -3,12 +3,26 @@ import { useHistory } from "react-router";
 import { Logo, Menu, Search, Wrapper } from "./style";
 import { BsSearch } from "react-icons/bs";
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../actions/User";
 
 export default function Header() {
   const [search, setSearch] = useState("");
+  const user = useSelector((state) => state.userReducer.user);
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  function doLogout() {
+    dispatch(logout());
+    history.push("/login");
+  }
+
   function isLoggedIn() {
-    return true;
+    if (user.token) {
+      return true;
+    } else {
+      return false;
+    }
   }
   return (
     <Wrapper>
@@ -40,11 +54,21 @@ export default function Header() {
       <Menu>
         {isLoggedIn() ? (
           <>
-            <span>랭킹</span>
-            <span>업적</span>
-            <span>식습관 레포트</span>
-            <span>김싸피</span>
-            <span>로그아웃</span>
+            <span
+              onClick={() => {
+                history.push("/ranking");
+              }}
+            >
+              랭킹
+            </span>
+            <span
+              onClick={() => {
+                history.push("/mypage");
+              }}
+            >
+              {user.id}
+            </span>
+            <span onClick={doLogout}>로그아웃</span>
           </>
         ) : (
           <>
