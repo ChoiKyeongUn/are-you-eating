@@ -23,17 +23,26 @@ function App() {
     <div className="App">
       <Router>
         <Header />
-        <PublicRoute path="/" exact={true} component={Main} />
+        <PrivateRoute path="/" exact={true} component={Main} />
         <PublicRoute path="/login" exact={true} component={LogIn} />
         <PublicRoute path="/signup" exact={true} component={SignUp} />
-        <PublicRoute path="/mypage" exact={true} component={MyPage} />
+        <PrivateRoute path="/mypage" exact={true} component={MyPage} />
 
-        <PublicRoute path="/test" exact={true} component={PreferenceTest} />
+
         <PublicRoute path="/map" exact={true} component={Map} />
 
-        <PublicRoute path="/ranking" exact={true} component={Ranking} />
 
-        <PublicRoute path="/store" exact={true} component={Store} />
+        <PrivateRoute path="/test" exact={true} component={PreferenceTest} />
+
+        <PrivateRoute path="/ranking" exact={true} component={Ranking} />
+        <PrivateRoute
+          path="/report"
+          exact={true}
+          component={EatingHabitsReport}
+        />
+>>>>>>> front/src/App.js
+
+        <PrivateRoute path="/store" exact={true} component={Store} />
       </Router>
     </div>
   );
