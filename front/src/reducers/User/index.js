@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT } from "../../actions/User";
+import { LOGIN, LOGOUT, SET_LOGGEDIN } from "../../actions/User";
 
 const INIT_STATE = {
   user: {},
@@ -15,6 +15,14 @@ export const userReducer = (state = INIT_STATE, action) => {
       return {
         ...state,
         user: {},
+      };
+    case SET_LOGGEDIN:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          isLoggedin: true,
+        },
       };
     default:
       return state;

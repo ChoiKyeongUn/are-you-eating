@@ -3,8 +3,8 @@ import { colors } from "../../styles";
 
 export const Container = styled.div`
   text-align: center;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 30px;
+  padding-bottom: 30px;
   h1 {
     font-size: 28px;
     font-weight: 400;
@@ -22,6 +22,7 @@ export const Container = styled.div`
     justify-content: center;
     padding: 0 180px;
     gap: 40px;
+    margin-bottom: 30px;
     .food {
       width: 205px;
       height: 205px;
@@ -40,6 +41,7 @@ export const Container = styled.div`
       img {
         width: 200px;
         height: 200px;
+        object-fit: cover;
       }
       .icon {
         color: ${colors.yellow};
@@ -57,4 +59,16 @@ export const Container = styled.div`
       }
     }
   }
+`;
+
+export const Button = styled.button`
+  width: 100px;
+  text-align: center;
+  background-color: ${(props) => (props.outline ? "white" : colors.yellow)};
+  color: ${(props) => (props.outline ? colors.yellow : "white")};
+  border: ${(props) => (props.outline ? `1px solid ${colors.yellow}` : "none")};
+  height: 40px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
 `;
