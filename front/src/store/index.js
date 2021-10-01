@@ -3,10 +3,10 @@ import storage from "redux-persist/lib/storage";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { persistReducer } from "redux-persist";
 
-import { bookReducer } from "../reducers/Books";
+import { userReducer } from "../reducers/User";
 
 const rootReducer = combineReducers({
-  bookReducer,
+  userReducer,
 });
 
 const persistConfig = {

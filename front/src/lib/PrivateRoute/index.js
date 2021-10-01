@@ -9,7 +9,7 @@ function PrivateRoute({ component: Component, ...rest }) {
         localStorage.getItem("loginUser") ? (
           <Component {...props} />
         ) : (
-          <Redirect to="/onboarding" />
+          <Redirect to="/login" />
         )
       }
     />

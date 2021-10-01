@@ -1,8 +1,19 @@
+buildscript{
+    ext {
+        querydslVer = '4.4.0'
+        querydslPluginVer = '1.0.10'
+    }
+	dependencies {
+		classpath "gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:${querydslPluginVer}"
+	}
+}
+
 plugins {
 	id 'org.springframework.boot' version '2.4.10'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 }
+apply plugin: 'com.ewerk.gradle.plugins.querydsl'
 
 group = 'com.ssafy'
 version = '0.0.1-SNAPSHOT'
@@ -16,6 +27,30 @@ configurations {
 
 repositories {
 	mavenCentral()
+}
+
+def querydslDir = 'src/main/generated'
+//def querydslDir = '$builDir/main/generated'
+querydsl {
+	library = "com.querydsl:querydsl-apt"
+	jpa = true
+	querydslSourcesDir = querydslDir
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs = ['src/main/java', querydslDir]
+		}
+	}
+}
+
+compileQuerydsl {
+	options.annotationProcessorPath = configurations.querydsl
+}
+
+configurations {
+	querydsl.extendsFrom compileClasspath
 }
 
 dependencies {
@@ -36,9 +71,15 @@ dependencies {
 	implementation("org.springframework.plugin:spring-plugin-core:2.0.0.RELEASE")
 	testImplementation 'org.springframework.security:spring-security-test'
 
+	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8'
+	
 	implementation('commons-io:commons-io:2.6')
 	implementation("org.apache.commons:commons-collections4:4.4")
 	implementation("org.apache.commons:commons-lang3:3.9")
+
+	implementation("com.querydsl:querydsl-jpa:${querydslVer}")
+    implementation("com.querydsl:querydsl-apt:${querydslVer}")
+	annotationProcessor("com.querydsl:querydsl-apt:${querydslVer}:jpa")
 
 	implementation("com.auth0:java-jwt:3.10.3")
 

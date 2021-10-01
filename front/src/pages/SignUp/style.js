@@ -1,13 +1,17 @@
 import styled from "styled-components";
 import { colors } from "../../styles";
 
+export const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+  position: relative;
+  height: 100%;
+`;
+
 export const Wrapper = styled.div`
-  width: 1000px;
+  width: 80vw;
   height: 580px;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 0);
-  margin-top: 50px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   background-image: url("images/sign_bg.png");
@@ -74,7 +78,7 @@ export const SignUpBox = styled.div`
 export const InputWithMessage = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   .message {
     font-size: 14px;
     height: 14px;
