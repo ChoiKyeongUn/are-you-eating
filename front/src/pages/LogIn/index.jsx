@@ -10,7 +10,7 @@ import {
   StyledInput,
   Wrapper,
 } from "./style";
-import { url } from "../../api";
+import { fetchApi } from "../../api";
 import { login } from "../../actions/User";
 
 export default function LogIn() {
@@ -26,8 +26,7 @@ export default function LogIn() {
       isLoggedin: data.isLoggedin,
     };
     dispatch(login(user));
-    if (data.isLoggedin) history.replace("/");
-    else history.replace("/test");
+    history.replace("/");
   }
 
   function handleKeyPress(e) {
@@ -36,15 +35,9 @@ export default function LogIn() {
   }
 
   function handleLoginButtonClick() {
-    fetch(`${url}/api/users/signin`, {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: id.value,
-        password: password.value,
-      }),
+    fetchApi("/api/users/signin", "post", {
+      id: id.value,
+      password: password.value,
     })
       .then((res) => {
         if (res.status === 200) {

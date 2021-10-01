@@ -1,12 +1,16 @@
 import styled from "styled-components";
 import { colors } from "../../styles";
 
+export const Box = styled.div`
+  width: 100%;
+  height: 65px;
+`;
 export const Wrapper = styled.div`
   width: 100%;
+  height: 65px;
   position: fixed;
   top: 0;
   left: 0;
-  height: 65px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   display: flex;

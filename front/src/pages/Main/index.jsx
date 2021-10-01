@@ -1,10 +1,19 @@
 import { useEffect, useState } from "react";
 import StoreItem from "../../components/StoreItem";
 import { StoreList, Wrapper } from "./style";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 export default function Main() {
   const [stores, setStores] = useState([]);
+  const user = useSelector((store) => store.userReducer.user);
+  const history = useHistory();
 
+  useEffect(() => {
+    if (!user.isLoggedin) {
+      history.replace("/test");
+    }
+  }, [user]);
   useEffect(() => {
     const stores = [];
     stores.push({

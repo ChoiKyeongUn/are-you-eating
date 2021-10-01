@@ -10,7 +10,7 @@ import {
   StyledInput,
   Wrapper,
 } from "./style";
-import { url } from "../../api";
+import { fetchApi } from "../../api";
 
 export default function SignUp() {
   const id = useInput("", idValidator);
@@ -36,21 +36,15 @@ export default function SignUp() {
     if (birth.length !== 10 || address.address === undefined) {
       return;
     }
-    fetch(`${url}/api/users/signup`, {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: id.value,
-        password: password.value,
-        nickname: nickname.value,
-        gender: gender,
-        birth: birth,
-        address: address.address,
-        latitude: address.latitude,
-        longitude: address.longitude,
-      }),
+    fetchApi("/api/users/signup", "post", {
+      id: id.value,
+      password: password.value,
+      nickname: nickname.value,
+      gender: gender,
+      birth: birth,
+      address: address.address,
+      latitude: address.latitude,
+      longitude: address.longitude,
     })
       .then((res) => {
         if (res.status === 200) {
@@ -137,7 +131,7 @@ export default function SignUp() {
         errorMessage: "4글자 이상 15글자 이하로 입력해주세요",
       };
     }
-    const result = await fetch(`${url}/api/users/checkId?id=${value}`);
+    const result = await fetchApi(`/api/users/checkId?id=${value}`, "get");
     if (result.status === 200) {
       return {
         isValid: true,
