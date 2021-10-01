@@ -1,12 +1,9 @@
 import { useState } from "react";
-import useInput from "../../hooks/useInput";
-import { useHistory } from "react-router";
 import { Icon } from '@iconify/react';
 import {
 
   MyInfoBox,
   MyReviewBox,
-  MyInfoLeft,
   MyInfoRight,
   MyReview
 
@@ -14,60 +11,78 @@ import {
 
 
 export default function LogIn() {
-  const id = useInput("");
-  const password = useInput("");
-  const history = useHistory();
- 
+
+
+
   const [modifyMode, setModifyMode] = useState(false);
 
   return (
 <div>
       <MyInfoBox>
-          <MyInfoLeft>
-              <img src="https://media.istockphoto.com/vectors/user-icon-member-sign-avatar-button-flat-style-vector-id654224782?k=20&m=654224782&s=170667a&w=0&h=FdOgLWb-Bs0WtMvaolThVA9Mw_iwkPrn2dJSjdzllj8=" alt="" srcset="">
-              </img>
-  
-        </MyInfoLeft>
-          <MyInfoRight>
-            <table>
+          <div style={
+              {
+                padding: "60px 30px",
+              }
+          }>
+              <img src="https://media.istockphoto.com/vectors/user-icon-member-sign-avatar-button-flat-style-vector-id654224782?k=20&m=654224782&s=170667a&w=0&h=FdOgLWb-Bs0WtMvaolThVA9Mw_iwkPrn2dJSjdzllj8=" alt="프로필 이미지" srcset="" 
+              style={
+                  {
+                        padding : "30px",
+                        width : "250px",
+                        height : "250px",
+                        borderRadius:"125px",
+
+                  }
+              }/>
+        </div>
+        
+        <div style={
+                {
+                    padding: "100px",
+                }
+                
+            }>
+            <table style={
+                {
+
+                }
+                
+            } border="0px">
                 <tr>
                    
-                    <td colSpan = '2'><h1>변대웅</h1></td>
-                    <td> <Icon icon="fxemoji:chicken" width="30px" height="30px"/></td>
+                    <td margin="10px"><h1>변대웅</h1></td>
                 </tr>   
                 <tr>
-
-                        <td className="info">아이디</td>
-                        <td></td>
-                        <td></td>
+                        <td  colSpan='2' className="info">아이디</td>
                         <td>dwbyun16</td>
 
 
                 </tr>
                 <tr>
-                
-                        <td  className="info">생년월일</td>
-                        <td></td>
-                        <td></td>
+                        <td  colSpan='2' className="info">생년월일</td>
                         <td>1996년 5월 3일</td>
                 
                 </tr>
                 <tr>
-
-                        <td  className="info">주소</td>
-                        <td></td>
-                        <td></td>
+                        <td colSpan='2' className="info">주소</td>
                         <td>대전광역시 유성구 덕명동</td>
 
                 </tr>
             </table>
 
-            <button
+            <button style = {
+                {
+                    position : "absolute",
+                    right : "20px",
+                    bottom : "20px",
+
+                }
+            }
              onClick={() => {
-               
+            //    ModifyProfile();
               }}
             >프로필 수정</button>
-            </MyInfoRight>
+        </div>
       </MyInfoBox>
       <br/>
       <br/>
