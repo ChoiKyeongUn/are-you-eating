@@ -35,12 +35,8 @@ function App() {
         <PrivateRoute path="/test" exact={true} component={PreferenceTest} />
 
         <PrivateRoute path="/ranking" exact={true} component={Ranking} />
-        <PrivateRoute
-          path="/report"
-          exact={true}
-          component={EatingHabitsReport}
-        />
->>>>>>> front/src/App.js
+
+
 
         <PrivateRoute path="/store" exact={true} component={Store} />
       </Router>
