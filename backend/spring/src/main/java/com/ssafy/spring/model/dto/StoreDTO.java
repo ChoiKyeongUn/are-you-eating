@@ -44,7 +44,7 @@ public class StoreDTO {
         }
         for(Review r: store.getReviews()) {
             if(r.getUser().getNickname() != "" && r.getUser().getNickname() != null) {
-                this.reviews.add(new ReviewDTO(r));
+                this.reviews.add(new ReviewDTO(r,r.getStore().getName(),r.getUser().getNickname()));
             }
         }
         for(StoreCategory sc: store.getStoreCategories()) {
