@@ -79,7 +79,6 @@ dependencies {
 
 	implementation("com.querydsl:querydsl-jpa:${querydslVer}")
     implementation("com.querydsl:querydsl-apt:${querydslVer}")
-	annotationProcessor("com.querydsl:querydsl-apt:${querydslVer}:jpa")
 
 	implementation("com.auth0:java-jwt:3.10.3")
 
