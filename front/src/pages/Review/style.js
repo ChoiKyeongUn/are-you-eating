@@ -32,6 +32,7 @@ export const Container = styled.div`
       text-align: center;
       border-radius: 6px;
       font-size: 16px;
+      cursor: pointer;
     }
     .complete {
       background-color: ${colors.yellow};
