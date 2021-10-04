@@ -29,9 +29,8 @@ export default function Header() {
       <Wrapper>
         <Logo>
           <img
-            src="images/logo.png"
-            alt=""
-            srcset=""
+            src="/images/logo.png"
+            alt="logo"
             onClick={() => {
               history.push("/");
             }}

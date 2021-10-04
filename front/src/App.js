@@ -12,11 +12,10 @@ import MyPage from "./pages/MyPage/index.jsx";
 import PreferenceTest from "./pages/PreferenceTest/index.jsx";
 import Map from "./pages/Map/index.jsx";
 
-
 import Ranking from "./pages/Ranking/index.jsx";
 
-
 import Store from "./pages/Store/index.jsx";
+import { Review } from "./pages/Review/index.jsx";
 
 function App() {
   return (
@@ -28,17 +27,14 @@ function App() {
         <PublicRoute path="/signup" exact={true} component={SignUp} />
         <PrivateRoute path="/mypage" exact={true} component={MyPage} />
 
-
         <PublicRoute path="/map" exact={true} component={Map} />
-
 
         <PrivateRoute path="/test" exact={true} component={PreferenceTest} />
 
         <PrivateRoute path="/ranking" exact={true} component={Ranking} />
 
-
-
-        <PrivateRoute path="/store" exact={true} component={Store} />
+        <PrivateRoute path="/store/:storeId" exact={true} component={Store} />
+        <PrivateRoute path="/review/:storeId" exact={true} component={Review} />
       </Router>
     </div>
   );
