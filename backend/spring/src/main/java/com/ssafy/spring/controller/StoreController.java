@@ -33,7 +33,7 @@ public class StoreController {
 			@ApiResponse(responseCode = "204", description = "해당 음식점 없음"),
 			@ApiResponse(responseCode = "500", description = "서버 오류") })
 	public ResponseEntity<StoreDTO> storeDetail(@Parameter(hidden = true) Authentication authentication,
-			@Parameter(name = "storeId", description = "음식점 id(기본키)", example = "1") @PathVariable("storeId") Long storeId) {
+			@Parameter(name = "storeId", description = "음식점 id(기본키)", example = "120922") @PathVariable("storeId") Long storeId) {
 		ResponseEntity<UserDetailsImpl> userDetailsResponseEntity = JwtTokenProvider.judgeAuthorization(authentication);
 		if(userDetailsResponseEntity.getBody() == null) {
 			return new ResponseEntity<>(null, userDetailsResponseEntity.getStatusCode());
