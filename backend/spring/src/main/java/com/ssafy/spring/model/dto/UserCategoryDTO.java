@@ -10,10 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserCategoryDTO {
 
+    private Long userId;
     private String name;
 
     @Builder
     public UserCategoryDTO(UserCategory userCategory) {
+        this.userId = userCategory.getUser().getUserId();
         this.name = userCategory.getCategory().getName();
     }
 }
