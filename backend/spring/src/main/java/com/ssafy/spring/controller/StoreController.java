@@ -1,6 +1,8 @@
 
 package com.ssafy.spring.controller;
 
+import com.ssafy.spring.common.auth.UserDetailsImpl;
+import com.ssafy.spring.common.util.JwtTokenProvider;
 import com.ssafy.spring.model.dto.StoreDTO;
 import com.ssafy.spring.service.StoreService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,9 +32,12 @@ public class StoreController {
 			@ApiResponse(responseCode = "200", description = "성공"),
 			@ApiResponse(responseCode = "204", description = "해당 음식점 없음"),
 			@ApiResponse(responseCode = "500", description = "서버 오류") })
-	public ResponseEntity<StoreDTO> storeDetail(
+	public ResponseEntity<StoreDTO> storeDetail(@Parameter(hidden = true) Authentication authentication,
 			@Parameter(name = "storeId", description = "음식점 id(기본키)", example = "1") @PathVariable("storeId") Long storeId) {
-		System.out.println(storeId);
+		ResponseEntity<UserDetailsImpl> userDetailsResponseEntity = JwtTokenProvider.judgeAuthorization(authentication);
+		if(userDetailsResponseEntity.getBody() == null) {
+			return new ResponseEntity<>(null, userDetailsResponseEntity.getStatusCode());
+		}
 		StoreDTO store = storeService.findById(storeId);
 		if (store == null) {
 			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
@@ -44,8 +50,13 @@ public class StoreController {
 			@ApiResponse(responseCode = "200", description = "성공"),
 			@ApiResponse(responseCode = "204", description = "해당 음식점 없음"),
 			@ApiResponse(responseCode = "500", description = "서버 오류") })
-	public ResponseEntity<List<StoreDTO>> getStoreList(@RequestParam(value="page", required=false, defaultValue="0") int page, @RequestParam(value="size", required=false, defaultValue="10") int size,
+	public ResponseEntity<List<StoreDTO>> getStoreList(@Parameter(hidden = true)  Authentication authentication,
+			@RequestParam(value="page", required=false, defaultValue="0") int page, @RequestParam(value="size", required=false, defaultValue="10") int size,
 			@RequestParam("keyword") String keyword) {
+		ResponseEntity<UserDetailsImpl> userDetailsResponseEntity = JwtTokenProvider.judgeAuthorization(authentication);
+		if(userDetailsResponseEntity.getBody() == null) {
+			return new ResponseEntity<>(null, userDetailsResponseEntity.getStatusCode());
+		}
 		Pageable pageable = PageRequest.of(page, size);
 		List<StoreDTO> stores = storeService.getStoreList(keyword, pageable);
 		if (stores == null || stores.size() == 0) {
