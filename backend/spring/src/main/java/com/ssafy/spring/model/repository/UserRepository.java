@@ -17,6 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
                    "from review as r " +
                    "join user as u " +
                    "on r.user_id = u.user_id " +
+                   "where u.nickname != '' and year(r.reg_time) = year(now()) and month(r.reg_time) = month(now())" +
                    "group by u.user_id " +
                    "limit 10")
     List<Object[]> getRanking();

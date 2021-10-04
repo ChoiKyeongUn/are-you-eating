@@ -43,7 +43,9 @@ public class StoreDTO {
             this.menus.add(new MenuDTO(m));
         }
         for(Review r: store.getReviews()) {
-            this.reviews.add(new ReviewDTO(r));
+            if(r.getUser().getNickname() != "" && r.getUser().getNickname() != null) {
+                this.reviews.add(new ReviewDTO(r));
+            }
         }
         for(StoreCategory sc: store.getStoreCategories()) {
             this.storeCategories.add(new StoreCategoryDTO(sc));
