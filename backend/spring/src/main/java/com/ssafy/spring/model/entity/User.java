@@ -56,12 +56,26 @@ public class User {
     }
 
     public void modify(UserDTO.SignupPostReq req) {
-        this.setPassword(new BCryptPasswordEncoder().encode(req.getPassword()));
-        this.setNickname(req.getNickname());
-        this.setGender(req.getGender());
-        this.setBirth(req.getBirth());
-        this.setAddress(req.getAddress());
-        this.setLatitude(req.getLatitude());
-        this.setLongitude(req.getLongitude());
+        if(req.getPassword() != null) {
+            this.setPassword(new BCryptPasswordEncoder().encode(req.getPassword()));
+        }
+        if(req.getNickname() != null) {
+            this.setNickname(req.getNickname());
+        }
+        if(req.getGender() != null) {
+            this.setGender(req.getGender());
+        }
+        if(req.getBirth() != null) {
+            this.setBirth(req.getBirth());
+        }
+        if(req.getAddress() != null) {
+            this.setAddress(req.getAddress());
+        }
+        if(req.getLatitude() != null) {
+            this.setLatitude(req.getLatitude());
+        }
+        if(req.getLongitude() != null) {
+            this.setLongitude(req.getLongitude());
+        }
     }
 }
