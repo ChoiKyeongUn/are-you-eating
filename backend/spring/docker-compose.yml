@@ -49,7 +49,6 @@ services:
     #   - kurento
     networks:
       - backend
-
 # volumes:
 #   eatrice_volume:
 networks:
