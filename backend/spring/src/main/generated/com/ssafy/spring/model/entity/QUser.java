@@ -38,6 +38,8 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath password = createString("password");
 
+    public final StringPath profilePath = createString("profilePath");
+
     public final ListPath<Review, QReview> reviews = this.<Review, QReview>createList("reviews", Review.class, QReview.class, PathInits.DIRECT2);
 
     public final ListPath<UserBadge, QUserBadge> userBadges = this.<UserBadge, QUserBadge>createList("userBadges", UserBadge.class, QUserBadge.class, PathInits.DIRECT2);
