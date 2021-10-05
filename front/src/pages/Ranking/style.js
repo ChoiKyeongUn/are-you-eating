@@ -34,6 +34,7 @@ export const Wrapper1 = styled.div`
     width: 200px;
     height: 200px;
     border-radius: 100px;
+    object-fit: cover;
   }
 
   .username {
@@ -65,6 +66,7 @@ export const Wrapper = styled.div`
     width: 70px;
     height: 70px;
     border-radius: 100px;
+    object-fit: cover;
   }
   .icon {
   }

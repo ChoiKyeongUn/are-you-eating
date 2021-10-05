@@ -20,7 +20,6 @@ export const Item = styled.div`
   }
   img {
     width: ${(props) => (props.size ? `${props.size}px` : "25px")};
-    cursor: pointer;
     visibility: ${(props) => (props.percent === 0 ? "hidden" : "visible")};
   }
 `;
