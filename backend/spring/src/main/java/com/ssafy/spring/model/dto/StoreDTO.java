@@ -47,7 +47,8 @@ public class StoreDTO {
         }
         for(Review r: store.getReviews()) {
             ++cnt;
-            score += r.getScore();
+            total += r.getScore();
+            System.out.println(r.getScore());
             if(r.getUser().getNickname() != "" && r.getUser().getNickname() != null) {
                 this.reviews.add(new ReviewDTO(r,r.getStore().getName(),r.getUser().getNickname()));
             }
