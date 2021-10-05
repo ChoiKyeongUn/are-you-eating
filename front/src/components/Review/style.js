@@ -30,6 +30,7 @@ export const InfoContainer = styled.div`
       font-size: 16px;
     }
     .store {
+      cursor: ${(props) => (props.storeClick ? "pointer" : "default")};
       font-size: 14px;
       color: ${colors.gray};
     }
