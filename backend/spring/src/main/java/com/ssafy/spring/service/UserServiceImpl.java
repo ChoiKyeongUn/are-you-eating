@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
         List<Object[]> ranking = userRepo.getRanking();
         List<RankingDTO> result = new ArrayList<>();
         for(Object o[]: ranking) {
-            result.add(new RankingDTO(((BigInteger) o[0]).longValue(), (String) o[1], ((BigInteger) o[2]).intValue()));
+            result.add(new RankingDTO(((BigInteger) o[0]).longValue(), (String) o[1], ((BigInteger) o[2]).intValue(), (String) o[3]));
         }
         return result;
     }
