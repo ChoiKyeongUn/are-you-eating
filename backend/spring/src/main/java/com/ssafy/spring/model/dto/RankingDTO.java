@@ -9,11 +9,13 @@ public class RankingDTO {
     private Long userId;
     private String id;
     private Integer count;
+    private String profilePath;
 
     @Builder
-    public RankingDTO(Long userId, String id, Integer count) {
+    public RankingDTO(Long userId, String id, Integer count, String profilePath) {
         this.userId = userId;
         this.id = id;
         this.count = count;
+        this.profilePath = profilePath;
     }
 }
