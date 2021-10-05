@@ -47,7 +47,7 @@ public class UserDTO {
         this.longitude = user.getLongitude();
         this.isLoggedIn = user.getIsLoggedIn();
         for(Review r: user.getReviews()) {
-            this.reviews.add(new ReviewDTO(r));
+            this.reviews.add(new ReviewDTO(r,r.getStore().getName(),r.getUser().getId(), r.getUser().getNickname()));
         }
         for(UserCategory uc: user.getUserCategories()) {
             this.userCategories.add(new UserCategoryDTO(uc));
