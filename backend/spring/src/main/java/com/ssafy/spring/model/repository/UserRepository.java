@@ -13,7 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUserId(String id);
 
     @Query(nativeQuery = true,
-           value = "select u.user_id, u.id, count(*) " +
+           value = "select u.user_id, u.id, count(*), u.profile_path " +
                    "from review as r " +
                    "join user as u " +
                    "on r.user_id = u.user_id " +
