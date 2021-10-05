@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +35,7 @@ public class ReviewServiceImpl implements ReviewService {
                 .store(store.get())
                 .score(reviewInfo.getScore())
                 .content(reviewInfo.getContent())
-                .regTime(reviewInfo.getRegTime())
+                .regTime(LocalDateTime.now())
                 .build();
         review = reviewRepo.save(review);
         return review.getReviewId();

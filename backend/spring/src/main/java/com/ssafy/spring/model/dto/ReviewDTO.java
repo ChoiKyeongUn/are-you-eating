@@ -52,14 +52,11 @@ public class ReviewDTO {
         private Integer score;
         @Schema(name = "content", example = "맛이 없어요")
         private String content;
-        @Schema(name = "regTime", example = "2012-09-23 12:30:00")
-        private LocalDateTime regTime;
 
         @Builder
         public WriteReviewReq(Review review) {
             this.score = review.getScore();
             this.content = review.getContent();
-            this.regTime = review.getRegTime();
         }
     }
 }
