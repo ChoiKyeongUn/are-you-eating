@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Long modify(String id, UserDTO.SignupPostReq modifyInfo) {
+    public Long modify(String id, UserDTO.ModifyPostReq modifyInfo) {
         User user = getUserByUserId(id);
         if(user == null) {
             return null;

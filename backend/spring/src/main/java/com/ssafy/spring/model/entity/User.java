@@ -26,6 +26,8 @@ public class User {
     private String address;
     private Float latitude;
     private Float longitude;
+    private String profilePath;
+
     @Column(name = "is_loggedin")
     private Boolean isLoggedIn;
 
@@ -39,7 +41,7 @@ public class User {
     private List<UserBadge> userBadges = new ArrayList<>();
 
     @Builder
-    public User(Long userId, String id, String password, String nickname, String gender, LocalDate birth, String address, Float latitude, Float longitude, Boolean isLoggedIn, List<Review> reviews, List<UserCategory> userCategories, List<UserBadge> userBadges) {
+    public User(Long userId, String id, String password, String nickname, String gender, LocalDate birth, String address, Float latitude, Float longitude, String profilePath, Boolean isLoggedIn, List<Review> reviews, List<UserCategory> userCategories, List<UserBadge> userBadges) {
         this.userId = userId;
         this.id = id;
         this.password = password;
@@ -53,9 +55,10 @@ public class User {
         this.reviews = reviews;
         this.userCategories = userCategories;
         this.userBadges = userBadges;
+        this.profilePath = profilePath;
     }
 
-    public void modify(UserDTO.SignupPostReq req) {
+    public void modify(UserDTO.ModifyPostReq req) {
         if(req.getPassword() != null) {
             this.setPassword(new BCryptPasswordEncoder().encode(req.getPassword()));
         }
@@ -77,5 +80,6 @@ public class User {
         if(req.getLongitude() != null) {
             this.setLongitude(req.getLongitude());
         }
+        this.setProfilePath(req.getProfilePath());
     }
 }
