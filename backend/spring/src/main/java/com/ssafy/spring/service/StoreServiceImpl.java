@@ -36,8 +36,8 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public List<StoreDTO> getStoreList(String keyword, Pageable pageable) {
-		List<Store> list = storeRepositorySupport.findAll(keyword, pageable);
+	public List<StoreDTO> getStoreList(String keyword, Pageable pageable, String sort) {
+		List<Store> list = storeRepositorySupport.findAll(keyword, pageable, sort);
 		List<StoreDTO> stores = new ArrayList<>();
 		for (int i = 0; i < list.size(); i++) {
 			stores.add(new StoreDTO(list.get(i)));
