@@ -18,6 +18,8 @@ public class ReviewDTO {
     private Integer score;
     private String content;
     private LocalDateTime regTime;
+    private String storeName;
+    private String userNickname;
 
     @Builder
     public ReviewDTO(Review review) {
@@ -26,6 +28,17 @@ public class ReviewDTO {
         this.score = review.getScore();
         this.content = review.getContent();
         this.regTime = review.getRegTime();
+    }
+
+    @Builder
+    public ReviewDTO(Review review, String storeName, String userNickname) {
+        this.storeId = review.getStore().getStoreId();
+        this.userId = review.getUser().getUserId();
+        this.score = review.getScore();
+        this.content = review.getContent();
+        this.regTime = review.getRegTime();
+        this.storeName = storeName;
+        this.userNickname = userNickname;
     }
 
     @Getter
