@@ -27,6 +27,7 @@ export default function Ranking() {
         return res.json();
       })
       .then((data) => {
+        console.log(data);
         setRank(getSortedRank(data));
       });
   }, []); // 한번만 실행
@@ -39,7 +40,7 @@ export default function Ranking() {
           <Wrapper1>
             <div>
               <img
-                src="{item.userImage}"
+                src={item.profilePath ? item.profilePath : ""}
                 alt=""
                 onError={(e) => {
                   e.target.src =
@@ -64,7 +65,7 @@ export default function Ranking() {
             </div>
             <div>
               <img
-                src="{item.userImage}"
+                src={item.profilePath ? item.profilePath : ""}
                 alt=""
                 onError={(e) => {
                   e.target.src =
@@ -84,7 +85,7 @@ export default function Ranking() {
             </div>
             <div>
               <img
-                src="{item.userImage}"
+                src={item.profilePath ? item.profilePath : ""}
                 alt=""
                 onError={(e) => {
                   e.target.src =
@@ -102,7 +103,7 @@ export default function Ranking() {
             <div className="ranking">{i + 1}</div>
             <div>
               <img
-                src="{item.userImage}"
+                src={item.profilePath ? item.profilePath : ""}
                 alt=""
                 onError={(e) => {
                   e.target.src =

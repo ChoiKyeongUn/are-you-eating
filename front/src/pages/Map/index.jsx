@@ -1,152 +1,147 @@
-import React, { useEffect, useState } from 'react'
-import { Icon } from '@iconify/react';
+import React, { useEffect, useState } from "react";
+import { Icon } from "@iconify/react";
 
-import MapList from "../../components/MapList";
+// import MapList from "../../components/MapList";
 import { fetchApi } from "../../api";
 
-export default function Map(){
-const[storeInfo,setStoreInfo] = useState([]);
-const[clickedStore, setClickedStore] = useState({});
+export default function Map() {
+  const [storeInfo, setStoreInfo] = useState([]);
+  const [clickedStore, setClickedStore] = useState({});
 
-  useEffect(()=>{
-    var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
-    mapOption = { 
+  useEffect(() => {
+    var mapContainer = document.getElementById("map"), // 지도를 표시할 div
+      mapOption = {
         center: new window.kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
-    };
+        level: 3, // 지도의 확대 레벨
+      };
 
-var map = new window.kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
- 
-// 마커를 표시할 위치와 name 객체 배열입니다
-var storeInfo = [
-    {
-        name: '음식점1',
-        address: '대전 유성구 궁동',
-        latlng: new window.kakao.maps.LatLng(33.450705, 126.570677)
-    },
-    {
-        name: '음식점2',
-        address: '대전 유성구 봉명동',
-        latlng: new window.kakao.maps.LatLng(33.450936, 126.569477)
-    },
-    {
-        name: '음식점3',
-        address: '대전 유성구 덕명동',
-        latlng: new window.kakao.maps.LatLng(33.450879, 126.569940)
-    },
-    {
-        name: '음식점4',
-        address: '대전 유성구 한밭대',
-        latlng: new window.kakao.maps.LatLng(33.451393, 126.570738)
-    }
-];
+    var map = new window.kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
-// 마커 이미지의 이미지 주소입니다
-var imageSrc = "https://kr.seaicons.com/wp-content/uploads/2015/06/house-icon.png"; 
-    
-for (var i = 0; i < storeInfo.length; i ++) {
-    
-    // 마커 이미지의 이미지 크기 입니다
-    var imageSize = new window.kakao.maps.Size(50, 50); 
-    
-    // 마커 이미지를 생성합니다    
-    var markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize); 
-    
-    // 마커를 생성합니다
-    var marker = new window.kakao.maps.Marker({
+    // 마커를 표시할 위치와 name 객체 배열입니다
+    var storeInfo = [
+      {
+        name: "음식점1",
+        address: "대전 유성구 궁동",
+        latlng: new window.kakao.maps.LatLng(33.450705, 126.570677),
+      },
+      {
+        name: "음식점2",
+        address: "대전 유성구 봉명동",
+        latlng: new window.kakao.maps.LatLng(33.450936, 126.569477),
+      },
+      {
+        name: "음식점3",
+        address: "대전 유성구 덕명동",
+        latlng: new window.kakao.maps.LatLng(33.450879, 126.56994),
+      },
+      {
+        name: "음식점4",
+        address: "대전 유성구 한밭대",
+        latlng: new window.kakao.maps.LatLng(33.451393, 126.570738),
+      },
+    ];
+
+    // 마커 이미지의 이미지 주소입니다
+    var imageSrc =
+      "https://kr.seaicons.com/wp-content/uploads/2015/06/house-icon.png";
+
+    for (var i = 0; i < storeInfo.length; i++) {
+      // 마커 이미지의 이미지 크기 입니다
+      var imageSize = new window.kakao.maps.Size(50, 50);
+
+      // 마커 이미지를 생성합니다
+      var markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize);
+
+      // 마커를 생성합니다
+      var marker = new window.kakao.maps.Marker({
         map: map, // 마커를 표시할 지도
         position: storeInfo[i].latlng, // 마커를 표시할 위치
         // title : storeInfo[i].name, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-        image : markerImage, // 마커 이미지
+        image: markerImage, // 마커 이미지
         clickable: true,
-    });
+      });
 
-    window.myMarker = marker
-    // 마커가 지도 위에 표시되도록 설정합니다.
-    marker.setMap(map);
+      window.myMarker = marker;
+      // 마커가 지도 위에 표시되도록 설정합니다.
+      marker.setMap(map);
 
-    
-    // 인포윈도우를 생성 합니다
-    var infowindow = new window.kakao.maps.InfoWindow({
-        content : `<div style="width:150px;text-align:center;padding:6px 0;">${storeInfo[i].name}<br/>${storeInfo[i].address}</div>`, // 백틱(`)
-    });
-    
-    // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
-    infowindow.open(map, marker); 
+      // 인포윈도우를 생성 합니다
+      var infowindow = new window.kakao.maps.InfoWindow({
+        content: `<div style="width:150px;text-align:center;padding:6px 0;">${storeInfo[i].name}<br/>${storeInfo[i].address}</div>`, // 백틱(`)
+      });
 
-    // 마커에 마우스오버 이벤트를 등록합니다
-    window.kakao.maps.event.addListener(marker, 'mouseover', function() {
+      // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+      infowindow.open(map, marker);
+
+      // 마커에 마우스오버 이벤트를 등록합니다
+      window.kakao.maps.event.addListener(marker, "mouseover", function () {
         // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
         infowindow.open(map, marker);
-    });
-    
-    // 마커에 마우스아웃 이벤트를 등록합니다
-    window.kakao.maps.event.addListener(marker, 'mouseout', function() {
+      });
+
+      // 마커에 마우스아웃 이벤트를 등록합니다
+      window.kakao.maps.event.addListener(marker, "mouseout", function () {
         // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
         infowindow.close();
-    });
-
-
-  
-
-
-}
-
+      });
+    }
 
     // 음식점 검색 정보
     fetchApi("/api/store/search")
-      .then(res => {
-          console.log(res);
-          return res.json();
+      .then((res) => {
+        console.log(res);
+        return res.json();
       })
-      .then(data => {
-          console.log(data);
-          setStoreInfo(data);
+      .then((data) => {
+        console.log(data);
+        setStoreInfo(data);
       });
-    }, [])
+  }, []);
 
+  return (
+    <div
+      style={{
+        display: "flex",
+      }}
+    >
+      <div
+        style={{
+          width: "500px",
+          // background: "#fff",
+        }}
+      >
+        <div
+          style={{
+            height: "50px",
+            margin: "10px",
+          }}
+        >
+          <div
+            className="searchBox"
+            style={{
+              display: "flex",
+            }}
+          >
+            <div
+              className="inputBox"
+              style={{
+                width: "80%",
+                height: "54px",
+                background: "#fff",
+              }}
+            ></div>
+            <button onClick="">
+              <Icon
+                icon="mi:filter"
+                width="50px"
+                height="50px"
+                color="#EEAB73"
+              />
+            </button>
+          </div>
+        </div>
 
-    return (
-        <div  style = {
-            {
-                display:"flex",
-
-        }
-     } >
-            <div style = {
-            {
-                width:"500px",
-                // background: "#fff",
-        }
-     }> 
-            <div style = {
-                {
-                    height: "50px",
-                    margin : "10px",
-                } 
-            }>
-                <div className="searchBox" style = {
-            {
-                display:"flex",
-
-        }
-     } >
-                    <div className="inputBox" style = {
-                {
-                    width : "80%",
-                    height: "54px",
-                    background : "#fff",
-                } 
-            }></div>
-                    <button onClick="">
-                    <Icon icon="mi:filter" width="50px" height="50px" color="#EEAB73"/>
-                    </button> 
-                </div>
-
-
-            </div>
-
-            {/* {storeInfo && storeInfo.map(store =>(
+        {/* {storeInfo && storeInfo.map(store =>(
                 <div style={
                     {
                         display:"flex",
@@ -167,16 +162,16 @@ for (var i = 0; i < storeInfo.length; i ++) {
                 </div>
                 
             ))} */}
-            
-            </div>
+      </div>
 
-        	<div id="map" style = {
-                {
-                    width: "2000px",
-                    height: "870px",
-                    margin : "0px",
-                }
-            }></div>
-        </div>
-    )
+      <div
+        id="map"
+        style={{
+          width: "2000px",
+          height: "870px",
+          margin: "0px",
+        }}
+      ></div>
+    </div>
+  );
 }

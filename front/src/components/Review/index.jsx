@@ -4,13 +4,16 @@ import { fetchApi } from "../../api";
 import { Score } from "../Score";
 import { Container, Content, ImageContainer, InfoContainer } from "./style";
 
-export default function Review({ review }) {
+export default function Review({ review, storeClick }) {
   const history = useHistory();
   function isMe() {
     const loginUserId = JSON.parse(localStorage.getItem("loginUser")).id;
     return loginUserId === review.id;
   }
-
+  function handleStoreclick() {
+    if (!storeClick) return;
+    history.push(`/store/${review.storeId}`);
+  }
   function handleModifyButtonClick() {
     history.push(`/review/${review.storeId}`, { review: review });
   }
@@ -28,10 +31,10 @@ export default function Review({ review }) {
 
   return (
     <Container>
-      <InfoContainer>
+      <InfoContainer storeClick={storeClick}>
         <div className="image">
           <img
-            src=""
+            src={review.userProfile ? review.userProfile : ""}
             alt=""
             onError={(e) => {
               e.target.src =
@@ -41,7 +44,9 @@ export default function Review({ review }) {
         </div>
         <div className="info">
           <div className="name">{review.userNickname}</div>
-          <div className="store">{review.storeName}</div>
+          <div className="store" onClick={handleStoreclick}>
+            {review.storeName}
+          </div>
           <section>
             <div className="score">
               <Score score={review.score} size={16} />
