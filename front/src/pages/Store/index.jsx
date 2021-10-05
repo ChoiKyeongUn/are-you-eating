@@ -34,6 +34,14 @@ export default function Store() {
     return tagsString;
   }
 
+  function getSortedReviews(reviews) {
+    console.log("reviews", reviews);
+    const newReviews = [...reviews];
+    newReviews.sort((r1, r2) => new Date(r2.regTime) - new Date(r1.regTime));
+    console.log("newReviews", newReviews);
+    return newReviews;
+  }
+
   function getStore() {
     fetchApi(`/api/store/${storeId}`)
       .then((res) => {
@@ -55,9 +63,9 @@ export default function Store() {
             categories: data.storeCategories,
             tel: data.tel,
             images: [],
-            score: 3,
+            score: data.score,
           });
-          setReviews(data.reviews);
+          setReviews(getSortedReviews(data.reviews));
         }
       })
       .catch((err) => console.log(err));

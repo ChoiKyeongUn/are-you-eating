@@ -8,6 +8,7 @@ export function Review() {
   const [content, setContent] = useState("");
   const [score, setScore] = useState(3);
   const [storeName, setStoreName] = useState("");
+  const [isModify, setIsModify] = useState(false);
   const { storeId } = useParams();
   const history = useHistory();
 
@@ -19,7 +20,6 @@ export function Review() {
     fetchApi(`/api/review/${storeId}`, "post", {
       score: score,
       content: content,
-      regTime: new Date(),
     })
       .then((res) => {
         if (res.status === 200) {
@@ -27,6 +27,26 @@ export function Review() {
           history.replace(`/store/${storeId}`);
         } else {
           alert("리뷰 작성 실패");
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+  function modifyReview() {
+    if (!content.split(" ").join("")) {
+      alert("내용을 입력해주세요.");
+      return;
+    }
+
+    fetchApi(`/api/review/${history.location.state.review.reviewId}`, "PATCH", {
+      score: score,
+      content: content,
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          alert("리뷰 수정 완료");
+          history.replace(`/store/${storeId}`);
+        } else {
+          alert("리뷰 수정 실패");
         }
       })
       .catch((err) => console.log(err));
@@ -42,9 +62,22 @@ export function Review() {
       })
       .catch((err) => console.log(err));
   }
+
+  function getMode() {
+    if (history.location.state) {
+      const review = history.location.state.review;
+      console.log(review);
+      setIsModify(true);
+      setScore(review.score);
+      setContent(review.content);
+    }
+  }
+
   useEffect(() => {
     getStoreName();
+    getMode();
   }, []);
+
   return (
     <Wrapper>
       <Container>
@@ -66,7 +99,16 @@ export function Review() {
           >
             취소
           </button>
-          <button className="complete" onClick={createReview}>
+          <button
+            className="complete"
+            onClick={() => {
+              if (isModify) {
+                modifyReview();
+              } else {
+                createReview();
+              }
+            }}
+          >
             완료
           </button>
         </div>
