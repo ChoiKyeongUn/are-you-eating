@@ -52,13 +52,13 @@ public class StoreController {
 			@ApiResponse(responseCode = "500", description = "서버 오류") })
 	public ResponseEntity<List<StoreDTO>> getStoreList(@Parameter(hidden = true)  Authentication authentication,
 			@RequestParam(value="page", required=false, defaultValue="0") int page, @RequestParam(value="size", required=false, defaultValue="10") int size,
-			@RequestParam("keyword") String keyword) {
+			@RequestParam("keyword") String keyword, @RequestParam(value = "sort", defaultValue = "rating") String sort) {
 		ResponseEntity<UserDetailsImpl> userDetailsResponseEntity = JwtTokenProvider.judgeAuthorization(authentication);
 		if(userDetailsResponseEntity.getBody() == null) {
 			return new ResponseEntity<>(null, userDetailsResponseEntity.getStatusCode());
 		}
 		Pageable pageable = PageRequest.of(page, size);
-		List<StoreDTO> stores = storeService.getStoreList(keyword, pageable);
+		List<StoreDTO> stores = storeService.getStoreList(keyword, pageable, sort);
 		if (stores == null || stores.size() == 0) {
 			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 		}
