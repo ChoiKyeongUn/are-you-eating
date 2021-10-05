@@ -21,6 +21,7 @@ public class ReviewDTO {
     private String storeName;
     private String id;
     private String userNickname;
+    private String userProfile;
 
     @Builder
     public ReviewDTO(Review review) {
@@ -33,7 +34,7 @@ public class ReviewDTO {
     }
 
     @Builder
-    public ReviewDTO(Review review, String storeName, String id, String userNickname) {
+    public ReviewDTO(Review review, String storeName, String id, String userNickname, String userProfile) {
         this.reviewId = review.getReviewId();
         this.storeId = review.getStore().getStoreId();
         this.userId = review.getUser().getUserId();
@@ -43,6 +44,7 @@ public class ReviewDTO {
         this.storeName = storeName;
         this.id = id;
         this.userNickname = userNickname;
+        this.userProfile = userProfile;
     }
 
     @Getter
