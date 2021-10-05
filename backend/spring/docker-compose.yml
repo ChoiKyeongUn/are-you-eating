@@ -49,14 +49,6 @@ services:
     #   - kurento
     networks:
       - backend
-
-  frontend:
-    container_name: eatrice_front
-    build:
-      context: ../../frontend/
-      ports:
-        - 3000:3000
-
 # volumes:
 #   eatrice_volume:
 networks:
