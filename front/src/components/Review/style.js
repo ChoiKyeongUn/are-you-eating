@@ -11,10 +11,12 @@ export const InfoContainer = styled.div`
   display: flex;
   margin-bottom: 10px;
   .image {
-    width: 80px;
+    width: 70px;
+    display: flex;
+    align-items: center;
     img {
-      width: 60px;
-      height: 60px;
+      width: 50px;
+      height: 50px;
       object-fit: cover;
       border-radius: 100%;
     }
@@ -22,7 +24,7 @@ export const InfoContainer = styled.div`
   .info {
     flex-grow: 1;
     .name {
-      font-size: 18px;
+      font-size: 16px;
     }
     .store {
       font-size: 14px;
@@ -31,7 +33,8 @@ export const InfoContainer = styled.div`
     section {
       display: flex;
       gap: 10px;
-      font-size: 14px;
+      font-size: 12px;
+      color: ${colors.gray};
     }
   }
 `;
@@ -49,4 +52,6 @@ export const ImageContainer = styled.div`
     }
   }
 `;
-export const Content = styled.div``;
+export const Content = styled.div`
+  font-size: 14px;
+`;
