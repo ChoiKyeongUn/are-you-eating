@@ -12,17 +12,19 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewDTO {
-
+    private Long reviewId;
     private Long storeId;
     private Long userId;
     private Integer score;
     private String content;
     private LocalDateTime regTime;
     private String storeName;
+    private String id;
     private String userNickname;
 
     @Builder
     public ReviewDTO(Review review) {
+        this.reviewId = review.getReviewId();
         this.storeId = review.getStore().getStoreId();
         this.userId = review.getUser().getUserId();
         this.score = review.getScore();
@@ -31,13 +33,15 @@ public class ReviewDTO {
     }
 
     @Builder
-    public ReviewDTO(Review review, String storeName, String userNickname) {
+    public ReviewDTO(Review review, String storeName, String id, String userNickname) {
+        this.reviewId = review.getReviewId();
         this.storeId = review.getStore().getStoreId();
         this.userId = review.getUser().getUserId();
         this.score = review.getScore();
         this.content = review.getContent();
         this.regTime = review.getRegTime();
         this.storeName = storeName;
+        this.id = id;
         this.userNickname = userNickname;
     }
 
