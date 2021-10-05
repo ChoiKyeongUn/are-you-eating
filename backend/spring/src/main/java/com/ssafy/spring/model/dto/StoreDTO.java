@@ -24,6 +24,7 @@ public class StoreDTO {
     private String address;
     private Float latitude;
     private Float longitude;
+    private Double score;
 
     private List<MenuDTO> menus = new ArrayList<>();
     private List<ReviewDTO> reviews = new ArrayList<>();
@@ -31,6 +32,8 @@ public class StoreDTO {
 
     @Builder
     public StoreDTO(Store store) {
+        double total = 0;
+        int cnt = 0;
         this.storeId = store.getStoreId();
         this.name = store.getName();
         this.branch = store.getBranch();
@@ -43,9 +46,16 @@ public class StoreDTO {
             this.menus.add(new MenuDTO(m));
         }
         for(Review r: store.getReviews()) {
+            ++cnt;
+            score += r.getScore();
             if(r.getUser().getNickname() != "" && r.getUser().getNickname() != null) {
                 this.reviews.add(new ReviewDTO(r,r.getStore().getName(),r.getUser().getNickname()));
             }
+        }
+        if(cnt == 0) {
+            this.score = 0.0;
+        } else {
+            this.score = total / cnt;
         }
         for(StoreCategory sc: store.getStoreCategories()) {
             this.storeCategories.add(new StoreCategoryDTO(sc));
