@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Wrapper } from "./style";
 
 export function ScoreInput({ score, setScore }) {
-  const [hoverScore, setHoverScore] = useState(score);
+  const [hoverScore, setHoverScore] = useState(3);
   function handleMouseEnter(e, s) {
     setHoverScore(s);
   }
@@ -12,6 +12,9 @@ export function ScoreInput({ score, setScore }) {
   function handleClick(e, s) {
     setScore(s);
   }
+  useEffect(() => {
+    setHoverScore(score);
+  }, [score]);
   return (
     <Wrapper>
       {[1, 2, 3, 4, 5].map((s) => (
@@ -19,7 +22,7 @@ export function ScoreInput({ score, setScore }) {
           <img
             src="/images/score.png"
             alt=""
-            class={s <= hoverScore ? "" : "disabled"}
+            className={s <= hoverScore ? "" : "disabled"}
             onMouseEnter={(e) => {
               handleMouseEnter(e, s);
             }}
