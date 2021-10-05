@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,11 +65,21 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<ReviewDTO> getTotalReview(String id) {
-        return reviewRepo.findByUserId(id);
+        List<Review> list = reviewRepo.findByUserId(id);
+        List<ReviewDTO> reviews = new ArrayList<>();
+        for (int i =0; i< list.size();i++){
+            reviews.add(new ReviewDTO(list.get(i),list.get(i).getStore().getName(),list.get(i).getUser().getNickname()));
+        }
+        return reviews;
     }
 
     @Override
     public List<ReviewDTO> getStoreReview(long storeId) {
-        return reviewRepo.findByStoreId(storeId);
+        List<Review> list = reviewRepo.findByStoreId(storeId);
+        List<ReviewDTO> reviews = new ArrayList<>();
+        for (int i =0; i< list.size();i++){
+            reviews.add(new ReviewDTO(list.get(i),list.get(i).getStore().getName(),list.get(i).getUser().getNickname()));
+        }
+        return reviews;
     }
 }
