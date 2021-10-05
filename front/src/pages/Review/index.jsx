@@ -13,7 +13,7 @@ export function Review() {
 
   function createReview() {
     if (!content.split(" ").join("")) {
-      alert("내용을 작성해주세요.");
+      alert("내용을 입력해주세요.");
       return;
     }
     fetchApi(`/api/review/${storeId}`, "post", {
