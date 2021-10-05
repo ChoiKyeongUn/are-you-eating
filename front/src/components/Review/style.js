@@ -23,6 +23,9 @@ export const InfoContainer = styled.div`
   }
   .info {
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
     .name {
       font-size: 16px;
     }
@@ -35,6 +38,17 @@ export const InfoContainer = styled.div`
       gap: 10px;
       font-size: 12px;
       color: ${colors.gray};
+      .buttons {
+        display: flex;
+        gap: 5px;
+        button {
+          cursor: pointer;
+          font-size: 12px;
+        }
+        .delete {
+          color: ${colors.red};
+        }
+      }
     }
   }
 `;
