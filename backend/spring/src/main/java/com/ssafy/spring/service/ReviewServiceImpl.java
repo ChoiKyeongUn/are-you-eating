@@ -50,6 +50,7 @@ public class ReviewServiceImpl implements ReviewService {
         }
         Review review = oreview.get();
         review.modifyReview(req);
+        review.setRegTime(LocalDateTime.now());
         return review.getReviewId();
     }
 
