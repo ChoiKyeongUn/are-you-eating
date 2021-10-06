@@ -43,8 +43,7 @@ export default function Ranking() {
                 src={item.profilePath ? item.profilePath : ""}
                 alt=""
                 onError={(e) => {
-                  e.target.src =
-                    "https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png";
+                  e.target.src = "/images/default_user.png";
                 }}
               ></img>
               <span className="icon">
@@ -68,8 +67,7 @@ export default function Ranking() {
                 src={item.profilePath ? item.profilePath : ""}
                 alt=""
                 onError={(e) => {
-                  e.target.src =
-                    "https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png";
+                  e.target.src = "/images/default_user.png";
                 }}
               ></img>
             </div>
@@ -88,8 +86,7 @@ export default function Ranking() {
                 src={item.profilePath ? item.profilePath : ""}
                 alt=""
                 onError={(e) => {
-                  e.target.src =
-                    "https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png";
+                  e.target.src = "/images/default_user.png";
                 }}
               ></img>
             </div>
@@ -106,8 +103,7 @@ export default function Ranking() {
                 src={item.profilePath ? item.profilePath : ""}
                 alt=""
                 onError={(e) => {
-                  e.target.src =
-                    "https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png";
+                  e.target.src = "/images/default_user.png";
                 }}
               ></img>
             </div>

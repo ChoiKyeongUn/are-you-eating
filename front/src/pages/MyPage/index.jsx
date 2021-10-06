@@ -177,8 +177,7 @@ export default function LogIn() {
             src={profile.profilePath ? profile.profilePath : ""}
             alt="profile"
             onError={(e) => {
-              e.target.src =
-                "https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png";
+              e.target.src = "/images/default_user.png";
             }}
           />
           <label htmlFor="upload"></label>
@@ -262,6 +261,7 @@ export default function LogIn() {
         </div>
       </Wrapper>
       <ReviewWrapper>
+        <h2>리뷰({profile.reviews && profile.reviews.length})</h2>
         {profile.reviews &&
           sortedReviews(profile.reviews).map((review, i) => (
             <div className="review-wrapper">
