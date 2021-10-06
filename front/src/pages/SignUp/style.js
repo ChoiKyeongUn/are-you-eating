@@ -6,7 +6,6 @@ export const Container = styled.div`
   justify-content: center;
   padding: 20px 0;
   position: relative;
-  height: 100%;
 `;
 
 export const Wrapper = styled.div`
