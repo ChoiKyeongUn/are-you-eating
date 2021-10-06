@@ -4,9 +4,11 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import { persistReducer } from "redux-persist";
 
 import { userReducer } from "../reducers/User";
+import { storeReducer } from "../reducers/Store";
 
 const rootReducer = combineReducers({
   userReducer,
+  storeReducer,
 });
 
 const persistConfig = {

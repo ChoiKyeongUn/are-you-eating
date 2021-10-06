@@ -42,6 +42,12 @@ textarea {
   font-family: "Noto Sans KR", sans-serif;
 }
 
+#root,
+.App {
+  height: 100%;
+  width: 100%;
+}
+
 /* custom scrollbar */
 *::-webkit-scrollbar {
   width: 8px;
