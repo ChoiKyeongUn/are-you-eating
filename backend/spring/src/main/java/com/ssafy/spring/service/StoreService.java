@@ -10,4 +10,5 @@ import java.util.List;
 public interface StoreService {
     StoreDTO findById(Long storeId);
     List<StoreDTO> getStoreList(String keyword, Pageable pageable, String sort);
+    List<StoreDTO> findNearbyStore(StoreDTO store);
 }
