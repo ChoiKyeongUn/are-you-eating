@@ -47,5 +47,6 @@
   },
   "devDependencies": {
     "@iconify/react": "^3.0.1"
-  }
+  },
+  "proxy": "http://54.180.160.233:8000"
 }
