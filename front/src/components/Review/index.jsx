@@ -37,8 +37,7 @@ export default function Review({ review, storeClick }) {
             src={review.userProfile ? review.userProfile : ""}
             alt=""
             onError={(e) => {
-              e.target.src =
-                "https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png";
+              e.target.src = "/images/default_user.png";
             }}
           />
         </div>

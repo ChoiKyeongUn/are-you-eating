@@ -115,7 +115,15 @@ export default function Search() {
                 handleMouseEnter(e, store);
               }}
             >
-              <div className="image"></div>
+              <div className="image">
+                <img
+                  src=""
+                  alt=""
+                  onError={(e) => {
+                    e.target.src = "/images/default_store.png";
+                  }}
+                />
+              </div>
               <div className="info">
                 <div className="name">{store.name}</div>
                 <div className="category">{getTags(store.storeCategories)}</div>

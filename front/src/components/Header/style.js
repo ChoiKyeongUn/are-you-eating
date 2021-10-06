@@ -3,10 +3,12 @@ import { colors } from "../../styles";
 
 export const Box = styled.div`
   width: 100%;
+  min-width: 800px;
   height: 65px;
 `;
 export const Wrapper = styled.div`
   width: 100%;
+  min-width: 800px;
   height: 65px;
   position: fixed;
   top: 0;
