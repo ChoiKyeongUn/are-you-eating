@@ -12,6 +12,11 @@ export default function Header() {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  function handleKeyPress(e) {
+    if (e.key !== "Enter") return;
+    if (search.split(" ").join("").length < 1) return;
+    history.replace(`/search`, { keyword: search });
+  }
   function doLogout() {
     dispatch(logout());
     history.push("/login");
@@ -43,11 +48,12 @@ export default function Header() {
             </span>
             <input
               type="text"
-              placeholder="지역, 식당 또는 음식"
+              placeholder="식당 이름"
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value);
               }}
+              onKeyPress={handleKeyPress}
             />
           </Search>
         )}

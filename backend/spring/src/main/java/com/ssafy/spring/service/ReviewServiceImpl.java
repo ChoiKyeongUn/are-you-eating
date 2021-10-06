@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +35,7 @@ public class ReviewServiceImpl implements ReviewService {
                 .store(store.get())
                 .score(reviewInfo.getScore())
                 .content(reviewInfo.getContent())
-                .regTime(reviewInfo.getRegTime())
+                .regTime(LocalDateTime.now())
                 .build();
         review = reviewRepo.save(review);
         return review.getReviewId();
@@ -49,6 +50,7 @@ public class ReviewServiceImpl implements ReviewService {
         }
         Review review = oreview.get();
         review.modifyReview(req);
+        review.setRegTime(LocalDateTime.now());
         return review.getReviewId();
     }
 
@@ -68,7 +70,7 @@ public class ReviewServiceImpl implements ReviewService {
         List<Review> list = reviewRepo.findByUserId(id);
         List<ReviewDTO> reviews = new ArrayList<>();
         for (int i =0; i< list.size();i++){
-            reviews.add(new ReviewDTO(list.get(i),list.get(i).getStore().getName(),list.get(i).getUser().getNickname()));
+            reviews.add(new ReviewDTO(list.get(i),list.get(i).getStore().getName(),list.get(i).getUser().getId(),list.get(i).getUser().getNickname(),list.get(i).getUser().getProfilePath()));
         }
         return reviews;
     }
@@ -78,7 +80,7 @@ public class ReviewServiceImpl implements ReviewService {
         List<Review> list = reviewRepo.findByStoreId(storeId);
         List<ReviewDTO> reviews = new ArrayList<>();
         for (int i =0; i< list.size();i++){
-            reviews.add(new ReviewDTO(list.get(i),list.get(i).getStore().getName(),list.get(i).getUser().getNickname()));
+            reviews.add(new ReviewDTO(list.get(i),list.get(i).getStore().getName(),list.get(i).getUser().getId(),list.get(i).getUser().getNickname(),list.get(i).getUser().getProfilePath()));
         }
         return reviews;
     }
