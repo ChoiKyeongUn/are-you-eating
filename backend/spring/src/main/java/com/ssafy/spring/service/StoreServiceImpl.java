@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -47,5 +48,22 @@ public class StoreServiceImpl implements StoreService {
 //		List<StoreDTO> stores = list.stream().map(Store -> modelMapper.map(Store, StoreDTO.class))
 //				.collect(Collectors.toList());
 		return stores;
+	}
+
+	@Override
+	public List<StoreDTO> findNearbyStore(StoreDTO store) {
+		float lat = store.getLatitude();
+		float lon = store.getLongitude();
+		List<Object[]> find = storeRepository.getNearbyStores(lat - 0.01, lat + 0.01, lon - 0.01, lon + 0.01);
+		List<Long> findIds = new ArrayList<>();
+		List<StoreDTO> res = new ArrayList<>();
+		for(Object[] o: find) {
+			findIds.add(((BigInteger)o[0]).longValue());
+		}
+		List<Store> stores = storeRepository.findAllById(findIds);
+		for(Store s: stores) {
+			res.add(new StoreDTO(s));
+		}
+		return res;
 	}
 }

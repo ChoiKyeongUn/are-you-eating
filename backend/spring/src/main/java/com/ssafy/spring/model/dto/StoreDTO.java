@@ -4,16 +4,14 @@ import com.ssafy.spring.model.entity.Menu;
 import com.ssafy.spring.model.entity.Review;
 import com.ssafy.spring.model.entity.Store;
 import com.ssafy.spring.model.entity.StoreCategory;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class StoreDTO {
 
     private Long storeId;
@@ -60,6 +58,18 @@ public class StoreDTO {
         }
         for(StoreCategory sc: store.getStoreCategories()) {
             this.storeCategories.add(new StoreCategoryDTO(sc));
+        }
+    }
+
+    @Getter
+    public static class InfoGetRes {
+        StoreDTO storeInfo;
+        List<StoreDTO> nearbyStores = new ArrayList<>();
+
+        @Builder
+        public InfoGetRes(StoreDTO storeInfo, List<StoreDTO> nearbyStores) {
+            this.storeInfo = storeInfo;
+            this.nearbyStores = nearbyStores;
         }
     }
 }
