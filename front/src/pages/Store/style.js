@@ -9,6 +9,7 @@ export const Container = styled.div`
 
 export const Wrapper = styled.div`
   width: 80vw;
+  min-width: 800px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   padding: 20px 30px;
@@ -94,8 +95,11 @@ export const Recommend = styled.div`
   .list {
     display: flex;
     flex-direction: column;
+    gap: 10px;
     .item {
       display: flex;
+      gap: 10px;
+      cursor: pointer;
       .left {
         width: 120px;
         height: 120px;
@@ -107,8 +111,14 @@ export const Recommend = styled.div`
       }
       .right {
         .name {
-          font-size: 20px;
+          font-size: 18px;
         }
+        .tags {
+          font-size: 12px;
+          color: ${colors.gray};
+          margin-bottom: 3px;
+        }
+
         .address {
           font-size: 14px;
           color: ${colors.gray};
