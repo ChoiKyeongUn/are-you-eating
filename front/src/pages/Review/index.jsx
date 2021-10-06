@@ -58,7 +58,7 @@ export function Review() {
         return res.json();
       })
       .then((data) => {
-        setStoreName(data.name);
+        setStoreName(data.storeInfo.name);
       })
       .catch((err) => console.log(err));
   }
