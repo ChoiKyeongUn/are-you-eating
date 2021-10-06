@@ -10,7 +10,7 @@ import SignUp from "./pages/SignUp/index.jsx";
 import MyPage from "./pages/MyPage/index.jsx";
 
 import PreferenceTest from "./pages/PreferenceTest/index.jsx";
-import Map from "./pages/Map/index.jsx";
+import Search from "./pages/Search/index.jsx";
 
 import Ranking from "./pages/Ranking/index.jsx";
 
@@ -27,7 +27,7 @@ function App() {
         <PublicRoute path="/signup" exact={true} component={SignUp} />
         <PrivateRoute path="/mypage" exact={true} component={MyPage} />
 
-        <PublicRoute path="/map" exact={true} component={Map} />
+        <PublicRoute path="/search" exact={true} component={Search} />
 
         <PrivateRoute path="/test" exact={true} component={PreferenceTest} />
 
