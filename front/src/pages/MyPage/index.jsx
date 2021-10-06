@@ -1,153 +1,280 @@
-import { useState } from "react";
-import { Icon } from '@iconify/react';
-import {
-
-  MyInfoBox,
-  MyReviewBox,
-  MyInfoRight,
-  MyReview
-
-} from "./style";
-
+import { useEffect, useState } from "react";
+import { BsCamera } from "react-icons/bs";
+import ReactS3Client from "../../S3";
+import { Container, ReviewWrapper, Wrapper } from "./style";
+import { fetchApi } from "../../api";
+import Review from "../../components/Review";
+import AddressSearch from "../../components/AddressSearch";
 
 export default function LogIn() {
-
-
-
   const [modifyMode, setModifyMode] = useState(false);
+  const [profile, setProfile] = useState({});
+  const [nickname, setNickname] = useState("");
+  const [birth, setBirth] = useState("");
+  const [address, setAddress] = useState({});
+  const [addressModalShow, setAddressModalShow] = useState(false);
+  const [modifyImage, setModifyImage] = useState(false);
+  const [userImage, setUserImage] = useState("");
+
+  // s3 서버에 업로드 할 유니크한 파일 이름
+  function getFileName(file) {
+    const today = new Date();
+    const fileName = `user-${today.getFullYear()}${
+      today.getMonth() + 1
+    }${today.getDate()}${today.getHours()}${today.getMinutes()}${today.getSeconds()}${today.getMilliseconds()}${
+      file.name
+    }`;
+    return fileName;
+  }
+
+  //   s3 서버에 이미지 업로드 하고 {url, order} 리스트 반환
+  async function getImage(image) {
+    if (image.files) {
+      const file = image.files[0];
+      const newFileName = getFileName(file);
+      await ReactS3Client.uploadFile(file, newFileName)
+        .then((data) => {
+          fetchApi(`/api/users`, "PATCH", { profilePath: data.location })
+            .then((res) => {
+              if (res.status === 200) {
+                window.location.reload();
+              }
+            })
+            .catch((err) => console.log(err));
+        })
+        .catch((err) => console.error(err));
+    }
+  }
+
+  //   파일읽기
+  function handleImageReader(file) {
+    // 보여주기 위한 사진정보를 추출
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    return new Promise((resolve, reject) => {
+      reader.onerror = () => {
+        reader.abort();
+        reject(new DOMException("Problem parsing input file."));
+      };
+      reader.onload = () => {
+        resolve(reader.result);
+      };
+    });
+  }
+  //   사용자가 업로드한 이미지 postImg state에 저장
+  async function handleImageCreate(e) {
+    const fileNm = e.target.value;
+    const fileList = e.target.files;
+    if (!fileNm) {
+      return false;
+    }
+    const ext = fileNm.slice(fileNm.lastIndexOf(".") + 1).toLowerCase();
+    if (!(ext === "gif" || ext === "jpg" || ext === "png" || ext === "jpeg")) {
+      alert("이미지파일 (.jpg, .png, .gif ) 만 업로드 가능합니다.");
+      e.target.value = "";
+      return false;
+    }
+    const file = fileList[0];
+
+    let imgUrl = await handleImageReader(file);
+    let tempImage = {
+      imgUrl: imgUrl,
+      files: [file],
+    };
+    getImage(tempImage);
+  }
+
+  function handleCompleteButtonClick() {
+    if (nickname.length < 2 || birth.length !== 10) {
+      alert("잘 입력하세요.");
+      return;
+    }
+    const data = {
+      profilePath: profile.profilePath,
+      nickname: nickname,
+      birth: birth,
+      address: address.address,
+      longitude: address.longitude,
+      latitude: address.latitude,
+    };
+    fetchApi(`/api/users`, "PATCH", data)
+      .then((res) => {
+        if (res.status === 200) {
+          window.location.reload();
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+  function handleBirthChange(e) {
+    const word = e.nativeEvent.data;
+    const value = e.target.value;
+    if (!(word >= "0" && word <= "9")) {
+      return;
+    }
+    if (word === null) {
+      setBirth(value);
+    } else if (value.length === 4 || value.length === 7) {
+      setBirth(value + "-");
+    } else if (value.length > 10) {
+      return;
+    } else {
+      setBirth(value);
+    }
+  }
+  function modalClose() {
+    setAddressModalShow(false);
+  }
+
+  function handleAddressSelect(address) {
+    setAddress(address);
+  }
+
+  function handleModifyButtonClick() {
+    setModifyMode(true);
+    setNickname(profile.nickname);
+    setBirth(profile.birth);
+    setAddress({
+      address: profile.address,
+      latitude: profile.latitude,
+      longitude: profile.longitude,
+    });
+  }
+
+  function sortedReviews(reviews) {
+    const newReviews = [...reviews];
+    newReviews.sort((r1, r2) => new Date(r2.regTime) - new Date(r1.regTime));
+    return newReviews;
+  }
+
+  useEffect(() => {
+    fetchApi(`/api/users`)
+      .then((res) => res.json())
+      .then((data) => {
+        setUserImage(data.profilePath ? data.profilePath : "");
+        setProfile(data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
-<div>
-      <MyInfoBox>
-          <div style={
-              {
-                padding: "60px 30px",
-              }
-          }>
-              <img src="https://media.istockphoto.com/vectors/user-icon-member-sign-avatar-button-flat-style-vector-id654224782?k=20&m=654224782&s=170667a&w=0&h=FdOgLWb-Bs0WtMvaolThVA9Mw_iwkPrn2dJSjdzllj8=" alt="프로필 이미지" srcset="" 
-              style={
-                  {
-                        padding : "30px",
-                        width : "250px",
-                        height : "250px",
-                        borderRadius:"125px",
-
-                  }
-              }/>
+    <Container>
+      <Wrapper>
+        <div
+          className="image"
+          onMouseEnter={() => {
+            setModifyImage(true);
+          }}
+          onMouseLeave={() => {
+            setModifyImage(false);
+          }}
+        >
+          {modifyImage && (
+            <div className="edit-image">
+              <BsCamera size={24} />
+            </div>
+          )}
+          <img
+            src={profile.profilePath ? profile.profilePath : ""}
+            alt="profile"
+            onError={(e) => {
+              e.target.src =
+                "https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png";
+            }}
+          />
+          <label htmlFor="upload"></label>
+          <input
+            id="upload"
+            type="file"
+            accept="image/*"
+            onChange={handleImageCreate}
+          />
         </div>
-        
-        <div style={
-                {
-                    padding: "100px",
-                }
-                
-            }>
-            <table style={
-                {
-
-                }
-                
-            } border="0px">
-                <tr>
-                   
-                    <td margin="10px"><h1>변대웅</h1></td>
-                </tr>   
-                <tr>
-                        <td  colSpan='2' className="info">아이디</td>
-                        <td>dwbyun16</td>
-
-
-                </tr>
-                <tr>
-                        <td  colSpan='2' className="info">생년월일</td>
-                        <td>1996년 5월 3일</td>
-                
-                </tr>
-                <tr>
-                        <td colSpan='2' className="info">주소</td>
-                        <td>대전광역시 유성구 덕명동</td>
-
-                </tr>
-            </table>
-
-            <button style = {
-                {
-                    position : "absolute",
-                    right : "20px",
-                    bottom : "20px",
-
-                }
-            }
-             onClick={() => {
-            //    ModifyProfile();
-              }}
-            >프로필 수정</button>
-        </div>
-      </MyInfoBox>
-      <br/>
-      <br/>
-      <br/>
-      <MyReviewBox>
-          <h2>리뷰(30)</h2>
-          <MyReview>
-              <div className="user">
-               <div className="left">
-               <img width ="90px" height="80px" src="https://media.istockphoto.com/vectors/user-icon-member-sign-avatar-button-flat-style-vector-id654224782?k=20&m=654224782&s=170667a&w=0&h=FdOgLWb-Bs0WtMvaolThVA9Mw_iwkPrn2dJSjdzllj8=" alt="" srcset="">
-              </img>   
-                   </div>
-                   <div className="right">
-                        <div className="username">변대웅</div>
-                        <div className="rsetaurant">롯데리아</div>
-                        <div>
-                            <span><Icon icon="noto:cooked-rice" width="20px" height="20px" />
-                            <Icon icon="noto:cooked-rice" width="20px" height="20px" />
-                            <Icon icon="noto:cooked-rice" width="20px" height="20px" />
-                            <Icon icon="noto:cooked-rice" width="20px" height="20px"/>
-                            <Icon icon="noto:cooked-rice" width="20px" height="20px"/></span>
-                            <span className="date">2021-09-13</span>
-                            </div>
-                   </div>
+        <div className="info">
+          <div className="line">
+            <div className="key">아이디</div>
+            <div className="value">{profile.id}</div>
+          </div>
+          <div className="line">
+            <div className="key">닉네임</div>
+            {modifyMode ? (
+              <div className="input">
+                <input
+                  type="text"
+                  value={nickname}
+                  onChange={(e) => {
+                    setNickname(e.target.value);
+                  }}
+                />
               </div>
-              <br></br>
-              <div className="pictures">
-                    <div>
-                        1
-                    </div>
-                    <div>
-                        2
-                    </div>
-                    <div>
-                        3
-                    </div>
-                    <div>
-                        4
-                    </div>
-                    <div>
-                        5
-                    </div>
-                </div>
-                <br></br>
-                <div className="review">
-                                    오늘은 급 햄버거가 땡긴 우미당이 롯데리아에 다녀온 후기를 써볼까 합니당.! 9시 넘어서 찾아간 롯데리아.
-                    제가 찾아간 롯데리아는 한밭대점인데, 1층과 2층을 모두 사용하고 있는 규모가 큰~ 롯데리아에요 ㅋ
-                    5월 26일부터 28일까지!! 단 3일간! 데리버거 두개에 3,900원이니!! 늦지말고 꼭 가셔요 ㅎ
-                    (참고로 데리버거 하나 가격은 3,500원 입니당.!)
-                    하지만! 오늘 우미당이 먹어볼 햄버거는!?
-                    오호.. 치즈 No.5 세트로 시키면 치즈스틱이 공짜!!!.
-
-                <button
-                 onClick={() => {
-               
+            ) : (
+              <div className="value">{profile.nickname}</div>
+            )}
+          </div>
+          <div className="line">
+            <div className="key">생년월일</div>
+            {modifyMode ? (
+              <div className="input">
+                <input type="text" value={birth} onChange={handleBirthChange} />
+              </div>
+            ) : (
+              <div className="value">{profile.birth}</div>
+            )}
+          </div>
+          <div className="line">
+            <div className="key">주소</div>
+            {modifyMode ? (
+              <div className="input">
+                <input
+                  type="text"
+                  readOnly={true}
+                  value={address.address}
+                  onClick={() => {
+                    setAddressModalShow(true);
+                  }}
+                  style={{
+                    cursor: "pointer",
+                  }}
+                />
+              </div>
+            ) : (
+              <div className="value">{profile.address}</div>
+            )}
+          </div>
+        </div>
+        <div className="modify">
+          {modifyMode ? (
+            <>
+              <button
+                className="cancel"
+                onClick={() => {
+                  setModifyMode(false);
                 }}
-                >
-                ...더보기
-                </button>
-              </div>
-              <br/>
-              <hr/>
- 
-          </MyReview>
-      </MyReviewBox>
-</div>
+              >
+                취소
+              </button>
+              <button className="complete" onClick={handleCompleteButtonClick}>
+                완료
+              </button>
+            </>
+          ) : (
+            <button onClick={handleModifyButtonClick}>프로필 수정</button>
+          )}
+        </div>
+      </Wrapper>
+      <ReviewWrapper>
+        {profile.reviews &&
+          sortedReviews(profile.reviews).map((review, i) => (
+            <div className="review-wrapper">
+              <Review review={review} storeClick={true} />
+            </div>
+          ))}
+      </ReviewWrapper>
+      {addressModalShow && (
+        <AddressSearch
+          modalClose={modalClose}
+          handleAddressSelect={handleAddressSelect}
+        />
+      )}
+    </Container>
   );
 }

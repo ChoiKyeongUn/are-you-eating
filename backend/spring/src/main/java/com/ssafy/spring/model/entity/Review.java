@@ -38,8 +38,11 @@ public class Review {
     }
 
     public void modifyReview(ReviewDTO.WriteReviewReq req){
-        this.setScore(req.getScore());
-        this.setContent(req.getContent());
-        this.setRegTime(req.getRegTime());
+        if(req.getScore() != null) {
+            this.setScore(req.getScore());
+        }
+        if(req.getContent() != null) {
+            this.setContent(req.getContent());
+        }
     }
 }

@@ -30,6 +30,7 @@ public class UserDTO {
     private Float latitude;
     private Float longitude;
     private Boolean isLoggedIn;
+    private String profilePath;
 
     private List<ReviewDTO> reviews = new ArrayList<>();
     private List<UserCategoryDTO> userCategories = new ArrayList<>();
@@ -46,8 +47,9 @@ public class UserDTO {
         this.latitude = user.getLatitude();
         this.longitude = user.getLongitude();
         this.isLoggedIn = user.getIsLoggedIn();
+        this.profilePath = user.getProfilePath();
         for(Review r: user.getReviews()) {
-            this.reviews.add(new ReviewDTO(r));
+            this.reviews.add(new ReviewDTO(r,r.getStore().getName(),r.getUser().getId(), r.getUser().getNickname(), r.getUser().getProfilePath()));
         }
         for(UserCategory uc: user.getUserCategories()) {
             this.userCategories.add(new UserCategoryDTO(uc));
@@ -100,9 +102,11 @@ public class UserDTO {
         private Float latitude;
         @Schema(name = "longitude", example = "111.22")
         private Float longitude;
+        @Schema(name = "profilePath", example = "null")
+        private String profilePath;
 
         @Builder
-        public SignupPostReq(String id, String password, String nickname, String gender, LocalDate birth, String address, Float latitude, Float longitude) {
+        public SignupPostReq(String id, String password, String nickname, String gender, LocalDate birth, String address, Float latitude, Float longitude, String profilePath) {
             this.id = id;
             this.password = password;
             this.nickname = nickname;
@@ -111,6 +115,7 @@ public class UserDTO {
             this.address = address;
             this.latitude = latitude;
             this.longitude = longitude;
+            this.profilePath = profilePath;
         }
 
         @Override
@@ -125,6 +130,37 @@ public class UserDTO {
                     ", latitude=" + latitude +
                     ", longitude=" + longitude +
                     '}';
+        }
+    }
+    @Getter
+    public static class ModifyPostReq {
+        @Schema(name = "password", example = "password4567")
+        private String password;
+        @Schema(name = "nickname", example = "기운경")
+        private String nickname;
+        @Schema(name = "gender", example = "여성")
+        private String gender;
+        @Schema(name = "birth", example = "2021-09-23")
+        private LocalDate birth;
+        @Schema(name = "address", example = "충북 증평군 ..")
+        private String address;
+        @Schema(name = "latitude", example = "123.45")
+        private Float latitude;
+        @Schema(name = "longitude", example = "111.22")
+        private Float longitude;
+        @Schema(name = "profilePath", example = "null")
+        private String profilePath;
+
+        @Builder
+        public ModifyPostReq(String password, String nickname, String gender, LocalDate birth, String address, Float latitude, Float longitude, String profilePath) {
+            this.password = password;
+            this.nickname = nickname;
+            this.gender = gender;
+            this.birth = birth;
+            this.address = address;
+            this.latitude = latitude;
+            this.longitude = longitude;
+            this.profilePath = profilePath;
         }
     }
 }

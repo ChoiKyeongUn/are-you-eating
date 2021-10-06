@@ -34,10 +34,15 @@ export default function Store() {
     return tagsString;
   }
 
+  function getSortedReviews(reviews) {
+    const newReviews = [...reviews];
+    newReviews.sort((r1, r2) => new Date(r2.regTime) - new Date(r1.regTime));
+    return newReviews;
+  }
+
   function getStore() {
     fetchApi(`/api/store/${storeId}`)
       .then((res) => {
-        console.log(res);
         if (res.status === 200) {
           return res.json();
         } else {
@@ -45,7 +50,6 @@ export default function Store() {
         }
       })
       .then((data) => {
-        console.log(data);
         if (data) {
           setStore({
             id: data.storeId,
@@ -55,9 +59,9 @@ export default function Store() {
             categories: data.storeCategories,
             tel: data.tel,
             images: [],
-            score: 3,
+            score: data.score,
           });
-          setReviews(data.reviews);
+          setReviews(getSortedReviews(data.reviews));
         }
       })
       .catch((err) => console.log(err));

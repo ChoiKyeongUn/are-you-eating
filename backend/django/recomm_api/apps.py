@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class RecommConfig(AppConfig):
-    name = 'recomm'
+class RecommApiConfig(AppConfig):
+    name = 'recomm_api'

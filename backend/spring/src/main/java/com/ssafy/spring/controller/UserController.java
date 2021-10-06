@@ -150,7 +150,7 @@ public class UserController {
             @ApiResponse(responseCode = "409", description = "해당 회원 정보 없음"),
             @ApiResponse(responseCode = "500", description = "서버 오류")})
     public ResponseEntity<UserDTO> modifyProfile(@Parameter(hidden = true) Authentication authentication,
-                                                 @Parameter(name = "수정할 정보", required = true) @RequestBody UserDTO.SignupPostReq modifyInfo) {
+                                                 @Parameter(name = "수정할 정보", required = true) @RequestBody UserDTO.ModifyPostReq modifyInfo) {
         ResponseEntity<UserDetailsImpl> userDetailsResponseEntity = JwtTokenProvider.judgeAuthorization(authentication);
         if(userDetailsResponseEntity.getBody() == null) {
             return new ResponseEntity<>(null, userDetailsResponseEntity.getStatusCode());

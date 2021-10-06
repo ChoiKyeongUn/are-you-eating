@@ -27,13 +27,31 @@ public class StoreController {
 
 	private final StoreService storeService;
 
+//	@GetMapping("/{storeId}")
+//	@Operation(summary = "음식점 상세 정보", description = "음식점 상세 정보를 조회한다.", responses = {
+//			@ApiResponse(responseCode = "200", description = "성공"),
+//			@ApiResponse(responseCode = "204", description = "해당 음식점 없음"),
+//			@ApiResponse(responseCode = "500", description = "서버 오류") })
+//	public ResponseEntity<StoreDTO> storeDetail(@Parameter(hidden = true) Authentication authentication,
+//			@Parameter(name = "storeId", description = "음식점 id(기본키)", example = "120922") @PathVariable("storeId") Long storeId) {
+//		ResponseEntity<UserDetailsImpl> userDetailsResponseEntity = JwtTokenProvider.judgeAuthorization(authentication);
+//		if(userDetailsResponseEntity.getBody() == null) {
+//			return new ResponseEntity<>(null, userDetailsResponseEntity.getStatusCode());
+//		}
+//		StoreDTO store = storeService.findById(storeId);
+//		if (store == null) {
+//			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+//		}
+//		return new ResponseEntity<>(store, HttpStatus.OK);
+//	}
+
 	@GetMapping("/{storeId}")
 	@Operation(summary = "음식점 상세 정보", description = "음식점 상세 정보를 조회한다.", responses = {
 			@ApiResponse(responseCode = "200", description = "성공"),
 			@ApiResponse(responseCode = "204", description = "해당 음식점 없음"),
 			@ApiResponse(responseCode = "500", description = "서버 오류") })
-	public ResponseEntity<StoreDTO> storeDetail(@Parameter(hidden = true) Authentication authentication,
-			@Parameter(name = "storeId", description = "음식점 id(기본키)", example = "120922") @PathVariable("storeId") Long storeId) {
+	public ResponseEntity<StoreDTO.InfoGetRes> storeDetail(@Parameter(hidden = true) Authentication authentication,
+												@Parameter(name = "storeId", description = "음식점 id(기본키)", example = "120922") @PathVariable("storeId") Long storeId) {
 		ResponseEntity<UserDetailsImpl> userDetailsResponseEntity = JwtTokenProvider.judgeAuthorization(authentication);
 		if(userDetailsResponseEntity.getBody() == null) {
 			return new ResponseEntity<>(null, userDetailsResponseEntity.getStatusCode());
@@ -42,9 +60,9 @@ public class StoreController {
 		if (store == null) {
 			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(store, HttpStatus.OK);
+		List<StoreDTO> nearbyStores = storeService.findNearbyStore(store);
+		return new ResponseEntity<>(new StoreDTO.InfoGetRes(store, nearbyStores), HttpStatus.OK);
 	}
-
 	@GetMapping("/search")
 	@Operation(summary = "음식점 검색 정보", description = "음식점 검색 정보를 조회한다.", responses = {
 			@ApiResponse(responseCode = "200", description = "성공"),
@@ -52,13 +70,13 @@ public class StoreController {
 			@ApiResponse(responseCode = "500", description = "서버 오류") })
 	public ResponseEntity<List<StoreDTO>> getStoreList(@Parameter(hidden = true)  Authentication authentication,
 			@RequestParam(value="page", required=false, defaultValue="0") int page, @RequestParam(value="size", required=false, defaultValue="10") int size,
-			@RequestParam("keyword") String keyword) {
+			@RequestParam("keyword") String keyword, @RequestParam(value = "sort", defaultValue = "rating") String sort) {
 		ResponseEntity<UserDetailsImpl> userDetailsResponseEntity = JwtTokenProvider.judgeAuthorization(authentication);
 		if(userDetailsResponseEntity.getBody() == null) {
 			return new ResponseEntity<>(null, userDetailsResponseEntity.getStatusCode());
 		}
 		Pageable pageable = PageRequest.of(page, size);
-		List<StoreDTO> stores = storeService.getStoreList(keyword, pageable);
+		List<StoreDTO> stores = storeService.getStoreList(keyword, pageable, sort);
 		if (stores == null || stores.size() == 0) {
 			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 		}

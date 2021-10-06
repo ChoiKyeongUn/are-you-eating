@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import helloAPI
+from .views import recommAPI
 
 urlpatterns = [
-    path("hello/", helloAPI),
+    path("<int:user_id>/", recommAPI)
 ]
