@@ -26,18 +26,16 @@ export default function Store() {
     return menuString;
   }
 
-  function getTagsString() {
-    if (!store.categories) return "";
-    const tagsString = store.categories
-      .map((category) => `#${category.name}`)
-      .join(" ");
-    return tagsString;
-  }
-
   function getSortedReviews(reviews) {
     const newReviews = [...reviews];
     newReviews.sort((r1, r2) => new Date(r2.regTime) - new Date(r1.regTime));
     return newReviews;
+  }
+
+  function getTags(categories) {
+    if (!categories) return "";
+    const tags = categories.map((c) => `#${c.name}`).join(" ");
+    return tags;
   }
 
   function getStore() {
@@ -50,38 +48,33 @@ export default function Store() {
         }
       })
       .then((data) => {
+        console.log(data);
         if (data) {
-          setStore({
-            id: data.storeId,
-            name: data.name,
-            address: data.address,
-            menus: data.menus,
-            categories: data.storeCategories,
-            tel: data.tel,
-            images: [],
-            score: data.score,
-          });
-          setReviews(getSortedReviews(data.reviews));
+          setStore(data.storeInfo);
+          setReviews(getSortedReviews(data.storeInfo.reviews));
+          setRecommend(data.nearbyStores);
         }
       })
       .catch((err) => console.log(err));
   }
   useEffect(() => {
     getStore();
-  }, []);
+  }, [storeId]);
 
-  useEffect(() => {}, []);
   return (
     <Container>
       <Wrapper>
-        {/* <ImageContainer>
-          {store.images &&
-            store.images.map((img, i) => (
-              <div className="item">
-                <img src={img} alt="" />
-              </div>
-            ))}
-        </ImageContainer> */}
+        <ImageContainer>
+          <div className="item">
+            <img
+              src=""
+              alt=""
+              onError={(e) => {
+                e.target.src = "/images/default_store.png";
+              }}
+            />
+          </div>
+        </ImageContainer>
         <div className="bottom">
           <div className="left">
             <Info>
@@ -91,7 +84,7 @@ export default function Store() {
                   <Score score={store.score} size={25} />
                 </div>
               </div>
-              <div className="tags">{getTagsString()}</div>
+              <div className="tags">{getTags(store.storeCategories)}</div>
               <Line />
               <div className="line">
                 <div className="key">주소</div>
@@ -122,22 +115,39 @@ export default function Store() {
               ))}
             </ReviewContainer>
           </div>
-          {/* <Recommend>
-          <h3>연관 맛집</h3>
-          <div className="list">
-            {recommend.map((item, i) => (
-              <div className="item" key={i}>
-                <div className="left">
-                  <img src={item.image} alt="" srcset="" />
+          <Recommend>
+            <h3>연관 맛집</h3>
+            <div className="list">
+              {recommend.map((item, i) => (
+                <div
+                  className="item"
+                  key={i}
+                  onClick={() => {
+                    history.push(`/store/${item.storeId}`);
+                  }}
+                >
+                  <div className="left">
+                    <img
+                      src="{item.image}"
+                      alt=""
+                      srcset=""
+                      onError={(e) => {
+                        e.target.src = "/images/default_store.png";
+                      }}
+                    />
+                  </div>
+                  <div className="right">
+                    <div className="name">{item.name}</div>
+                    <div className="tags">{getTags(item.storeCategories)}</div>
+                    <div className="score">
+                      <Score score={item.score} size={14} />
+                    </div>
+                    <div className="address">{item.address}</div>
+                  </div>
                 </div>
-                <div className="right">
-                  <div className="name">{item.name}</div>
-                  <div className="address">{item.address}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Recommend> */}
+              ))}
+            </div>
+          </Recommend>
         </div>
       </Wrapper>
     </Container>
