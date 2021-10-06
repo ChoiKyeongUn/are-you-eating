@@ -6,4 +6,4 @@ ADD requirements.txt /django
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 ADD . /django/
-CMD ["python3", "manage.py", "runserver", "0:8000"]
+CMD ["python", "manage.py", "runserver", "0:8000"]
