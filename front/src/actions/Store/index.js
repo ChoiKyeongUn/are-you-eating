@@ -20,14 +20,18 @@ export const searchStores =
     const countRes = await fetchApi(
       `/api/store/search?keyword=${search}&sort=count&page=${page}&size=${10}`
     );
-    const rating = await ratingRes.json();
-    const count = await countRes.json();
-    if (page === 0) {
-      dispatch(setStores(rating, count));
+    if (countRes.status === 200) {
+      const rating = await ratingRes.json();
+      const count = await countRes.json();
+      if (page === 0) {
+        dispatch(setStores(rating, count));
+      } else {
+        const newRating = getState().storeReducer.rating.concat(rating);
+        const newCount = getState().storeReducer.count.concat(count);
+        dispatch(setStores(newRating, newCount));
+      }
     } else {
-      const newRating = getState().storeReducer.rating.concat(rating);
-      const newCount = getState().storeReducer.count.concat(count);
-      dispatch(setStores(newRating, newCount));
+      dispatch(setStores([], []));
     }
     dispatch(setIsLoading(false));
   };
