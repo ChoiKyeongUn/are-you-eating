@@ -34,7 +34,7 @@ def recommAPI(request, user_id):
     for r in store_info:
         if all_store_info.get(r[0]) == None:
             all_store_info[r[0]] = [0] * 16
-        all_store_info[r[0]][r[10]-1] = 1
+        all_store_info[r[0]][r[11]-1] = 1
         # name
         all_store_info[r[0]][11] = r[1]
         # tel
