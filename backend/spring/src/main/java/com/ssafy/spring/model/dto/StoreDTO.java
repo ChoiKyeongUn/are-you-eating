@@ -46,10 +46,9 @@ public class StoreDTO {
         for(Review r: store.getReviews()) {
             ++cnt;
             total += r.getScore();
-            System.out.println(r.getScore());
-            if(r.getUser().getNickname() != "" && r.getUser().getNickname() != null) {
-                this.reviews.add(new ReviewDTO(r,r.getStore().getName(),r.getUser().getId(), r.getUser().getNickname(),r.getUser().getProfilePath()));
-            }
+
+            this.reviews.add(new ReviewDTO(r,r.getStore().getName(),r.getUser().getId(), r.getUser().getNickname(),r.getUser().getProfilePath()));
+
         }
         if(cnt == 0) {
             this.score = 0.0;
