@@ -11,3 +11,15 @@ export const fetchApi = (uri, method, body) => {
     body: JSON.stringify(body),
   });
 };
+
+export const fetchImages = (store, size = 1) => {
+  const query = store.area ? `${store.area} ${store.name}` : store.name;
+  const url = `https://dapi.kakao.com/v2/search/image?query=${query}&size=${size}`;
+  return fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "KakaoAK 781ed2f07eb684a67bab44bffdcf861b",
+    },
+  });
+};

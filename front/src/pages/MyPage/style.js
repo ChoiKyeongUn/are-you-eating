@@ -9,6 +9,7 @@ export const Container = styled.div`
   padding: 20px 0;
   gap: 20px;
   width: 100%;
+  height: calc(100% - 65px);
 `;
 
 export const Wrapper = styled.div`
