@@ -16,7 +16,9 @@ import {
   setScroll,
   setSearch,
   setSort,
+  setStores,
 } from "../../actions/Store";
+import { fetchImages } from "../../api";
 
 export default function Search() {
   const sort = useSelector((state) => state.storeReducer.sort);
@@ -29,6 +31,7 @@ export default function Search() {
     lat: 36.354823,
     lng: 127.298343,
   });
+  const [flag, setFlag] = useState(false);
   const storeListRef = useRef(null);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -73,6 +76,34 @@ export default function Search() {
     setCenter({ lat: store.latitude, lng: store.longitude });
   }
 
+  async function addImageStores() {
+    if (rating.length < 1) return;
+    if (flag) return;
+    setFlag(true);
+    const newRating = [...rating];
+    for (let i = 0; i < newRating.length; i++) {
+      if (newRating.imgUrl) continue;
+      const res = await fetchImages(newRating[i], 1);
+      if (res.status === 200) {
+        const data = await res.json();
+        const images = data?.documents.map((item) => item.thumbnail_url);
+        newRating[i].imgUrl = images.length > 0 ? images[0] : "none";
+      }
+    }
+    const newCount = [...count];
+    for (let i = 0; i < newCount.length; i++) {
+      if (newCount.imgUrl) continue;
+      const res = await fetchImages(newCount[i], 1);
+      if (res.status === 200) {
+        const data = await res.json();
+        const images = data?.documents.map((item) => item.thumbnail_url);
+        newCount[i].imgUrl = images.length > 0 ? images[0] : "none";
+      }
+    }
+    dispatch(setStores(newRating, newCount));
+    setFlag(false);
+  }
+
   useEffect(() => {
     const keyword = history.location.state.keyword;
     if (keyword !== search) {
@@ -82,6 +113,12 @@ export default function Search() {
       storeListRef.current.scrollTo(0, scroll);
     }
   }, [history.location.state.keyword]);
+
+  useEffect(() => {
+    if (!flag) {
+      addImageStores();
+    }
+  }, [rating]);
 
   return (
     <Container>
