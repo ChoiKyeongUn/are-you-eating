@@ -22,6 +22,7 @@ public class StoreDTO {
     private String address;
     private Float latitude;
     private Float longitude;
+    private String imgUrl;
     private Double score;
 
     private List<MenuDTO> menus = new ArrayList<>();
@@ -40,6 +41,7 @@ public class StoreDTO {
         this.address = store.getAddress();
         this.latitude = store.getLatitude();
         this.longitude = store.getLongitude();
+        this.imgUrl = store.getImgUrl();
         for(Menu m: store.getMenus()) {
             this.menus.add(new MenuDTO(m));
         }
