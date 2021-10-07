@@ -45,7 +45,7 @@ public class UserController {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity(
-                new UserDTO.SigninPostRes(JwtTokenProvider.generateToken(new UserDetailsImpl(user)), user.getIsLoggedIn()),
+                new UserDTO.SigninPostRes(JwtTokenProvider.generateToken(new UserDetailsImpl(user)), user.getIsLoggedIn(), user.getUserId(), user.getNickname()),
                 HttpStatus.OK
         );
     }
