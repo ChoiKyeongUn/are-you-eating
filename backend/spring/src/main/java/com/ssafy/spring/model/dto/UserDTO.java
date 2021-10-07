@@ -77,10 +77,14 @@ public class UserDTO {
         @Schema(name = "JWT Authentication Token")
         private String token;
         private Boolean isLoggedin;
+        private Long userId;
+        private String nickname;
 
-        public SigninPostRes(String token, Boolean isLoggedin) {
+        public SigninPostRes(String token, Boolean isLoggedin, Long userId, String nickname) {
             this.token = token;
             this.isLoggedin = isLoggedin;
+            this.userId = userId;
+            this.nickname = nickname;
         }
     }
 
