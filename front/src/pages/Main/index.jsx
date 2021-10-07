@@ -10,7 +10,7 @@ export default function Main() {
   const history = useHistory();
 
   function getStores() {
-    fetch(`/api/recomm/3`, {
+    fetch(`/recomm/${user.userId}`, {
       method: "GET",
     })
       .then((res) => res.json())
@@ -32,7 +32,7 @@ export default function Main() {
   return (
     <Container>
       <Wrapper>
-        <h1>{user.id}님 취향 저격 맛집 추천</h1>
+        <h1>{user.nickname}님 취향 저격 맛집 추천</h1>
         <StoreList>
           {stores.map((store, i) => (
             <StoreItem store={store} key={i} />

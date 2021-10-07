@@ -27,7 +27,6 @@ export default function Ranking() {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
         setRank(getSortedRank(data));
       });
   }, []); // 한번만 실행
