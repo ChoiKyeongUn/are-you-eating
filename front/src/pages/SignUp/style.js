@@ -4,7 +4,7 @@ import { colors } from "../../styles";
 export const Container = styled.div`
   display: flex;
   justify-content: center;
-  padding: 20px 0;
+  padding: 40px 0;
   position: relative;
 `;
 

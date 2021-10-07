@@ -73,3 +73,40 @@ export const setSearch = (search) => {
     search: search,
   };
 };
+
+export const addReview = (storeId) => (dispatch, getState) => {
+  const newRating = [...getState().storeReducer.rating];
+  const newCount = [...getState().storeReducer.count];
+
+  for (let i = 0; i < newRating.length; i++) {
+    if (newRating[i].storeId === parseInt(storeId)) {
+      newRating[i].reviews.push("review");
+      break;
+    }
+  }
+  for (let i = 0; i < newCount.length; i++) {
+    if (newCount[i].storeId === parseInt(storeId)) {
+      newCount[i].reviews.push("review");
+      break;
+    }
+  }
+  dispatch(setStores(newRating, newCount));
+};
+export const deleteReview = (storeId) => (dispatch, getState) => {
+  const newRating = [...getState().storeReducer.rating];
+  const newCount = [...getState().storeReducer.count];
+
+  for (let i = 0; i < newRating.length; i++) {
+    if (newRating[i].storeId === parseInt(storeId)) {
+      newRating[i].reviews.pop();
+      break;
+    }
+  }
+  for (let i = 0; i < newCount.length; i++) {
+    if (newCount[i].storeId === parseInt(storeId)) {
+      newCount[i].reviews.pop();
+      break;
+    }
+  }
+  dispatch(setStores(newRating, newCount));
+};
