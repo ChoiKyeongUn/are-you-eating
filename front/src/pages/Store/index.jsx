@@ -48,7 +48,6 @@ export default function Store() {
         }
       })
       .then((data) => {
-        console.log(data);
         if (data) {
           setStore(data.storeInfo);
           setReviews(getSortedReviews(data.storeInfo.reviews));

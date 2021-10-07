@@ -1,11 +1,14 @@
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { deleteReview } from "../../actions/Store";
 import { fetchApi } from "../../api";
 import { Score } from "../Score";
 import { Container, Content, ImageContainer, InfoContainer } from "./style";
 
 export default function Review({ review, storeClick }) {
   const history = useHistory();
+  const dispatch = useDispatch();
   function isMe() {
     const loginUserId = JSON.parse(localStorage.getItem("loginUser")).id;
     return loginUserId === review.id;
@@ -22,6 +25,7 @@ export default function Review({ review, storeClick }) {
       fetchApi(`/api/review/${review.reviewId}`, "delete")
         .then((res) => {
           if (res.status === 200) {
+            dispatch(deleteReview(review.storeId));
             window.location.reload();
           }
         })
@@ -42,7 +46,9 @@ export default function Review({ review, storeClick }) {
           />
         </div>
         <div className="info">
-          <div className="name">{review.userNickname}</div>
+          <div className="name">
+            {review.userNickname ? review.userNickname : "이름없음"}
+          </div>
           <div className="store" onClick={handleStoreclick}>
             {review.storeName}
           </div>

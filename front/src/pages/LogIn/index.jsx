@@ -22,8 +22,7 @@ export default function LogIn() {
   function doLogin(data) {
     const user = {
       id: id.value,
-      token: data.token,
-      isLoggedin: data.isLoggedin,
+      ...data,
     };
     dispatch(login(user));
     history.replace("/");
