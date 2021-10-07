@@ -3,6 +3,8 @@ import { ScoreInput } from "../../components/ScoreInput";
 import { Container, Wrapper } from "./style";
 import { useLocation, useHistory, useParams } from "react-router-dom";
 import { fetchApi } from "../../api";
+import { useDispatch } from "react-redux";
+import { addReview } from "../../actions/Store";
 
 export function Review() {
   const [content, setContent] = useState("");
@@ -11,6 +13,7 @@ export function Review() {
   const [isModify, setIsModify] = useState(false);
   const { storeId } = useParams();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   function createReview() {
     if (!content.split(" ").join("")) {
@@ -24,7 +27,9 @@ export function Review() {
       .then((res) => {
         if (res.status === 200) {
           alert("리뷰 작성 완료");
-          history.replace(`/store/${storeId}`);
+          dispatch(addReview(storeId));
+          history.goBack();
+          // history.replace(`/store/${storeId}`);
         } else {
           alert("리뷰 작성 실패");
         }
@@ -66,7 +71,6 @@ export function Review() {
   function getMode() {
     if (history.location.state) {
       const review = history.location.state.review;
-      console.log(review);
       setIsModify(true);
       setScore(review.score);
       setContent(review.content);
