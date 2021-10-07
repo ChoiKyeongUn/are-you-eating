@@ -66,7 +66,7 @@ export default function Store() {
         <ImageContainer>
           <div className="item">
             <img
-              src=""
+              src={store.imgUrl ? store.imgUrl : ""}
               alt=""
               onError={(e) => {
                 e.target.src = "/images/default_store.png";
@@ -127,9 +127,8 @@ export default function Store() {
                 >
                   <div className="left">
                     <img
-                      src="{item.image}"
+                      src={item.imgUrl ? item.imgUrl : ""}
                       alt=""
-                      srcset=""
                       onError={(e) => {
                         e.target.src = "/images/default_store.png";
                       }}

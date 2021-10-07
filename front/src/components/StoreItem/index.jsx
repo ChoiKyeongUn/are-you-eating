@@ -1,6 +1,7 @@
 import { ImgContainer, InfoContainer, Wrapper } from "./style";
 import { Score } from "../../components/Score";
 import { useHistory } from "react-router";
+import { useEffect } from "react";
 
 export default function StoreItem({ store }) {
   const history = useHistory();
@@ -10,6 +11,7 @@ export default function StoreItem({ store }) {
     const tags = categories.map((c) => `#${c}`).join(" ");
     return tags;
   }
+
   return (
     <Wrapper
       onClick={() => {
@@ -18,7 +20,7 @@ export default function StoreItem({ store }) {
     >
       <ImgContainer>
         <img
-          src="{store.img}"
+          src={store.imgUrl ? store.imgUrl : ""}
           alt="asd"
           onError={(e) => {
             e.target.src = "/images/default_store.png";

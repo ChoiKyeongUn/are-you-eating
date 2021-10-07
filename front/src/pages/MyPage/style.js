@@ -78,10 +78,23 @@ export const Wrapper = styled.div`
     right: 10px;
     bottom: 10px;
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+    align-items: flex-end;
     button {
       font-size: 14px;
       cursor: pointer;
+    }
+    .top {
+      display: flex;
+      gap: 10px;
+      .cancel {
+        color: ${colors.gray};
+      }
+    }
+    .bottom {
+      button {
+        color: ${colors.red};
+      }
     }
   }
 `;
