@@ -117,7 +117,7 @@ export default function Search() {
             >
               <div className="image">
                 <img
-                  src=""
+                  src={store.imgUrl ? store.imgUrl : ""}
                   alt=""
                   onError={(e) => {
                     e.target.src = "/images/default_store.png";
