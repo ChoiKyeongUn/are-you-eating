@@ -22,6 +22,8 @@ public class Store {
     private String address;
     private Float latitude;
     private Float longitude;
+    @Column(name = "img_url")
+    private String imgUrl;
 
     @OneToMany(mappedBy = "store")
     private List<Menu> menus = new ArrayList<>();
@@ -33,7 +35,7 @@ public class Store {
     private List<StoreCategory> storeCategories = new ArrayList<>();
 
     @Builder
-    public Store(Long storeId, String name, String branch, String area, String tel, String address, Float latitude, Float longitude, List<Menu> menus, List<Review> reviews, List<StoreCategory> storeCategories) {
+    public Store(Long storeId, String name, String branch, String area, String tel, String address, Float latitude, Float longitude, String imgUrl, List<Menu> menus, List<Review> reviews, List<StoreCategory> storeCategories) {
         this.storeId = storeId;
         this.name = name;
         this.branch = branch;
@@ -42,6 +44,7 @@ public class Store {
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.imgUrl = imgUrl;
         this.menus = menus;
         this.reviews = reviews;
         this.storeCategories = storeCategories;
