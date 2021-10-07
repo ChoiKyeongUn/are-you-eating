@@ -5,6 +5,9 @@ import { Container, ReviewWrapper, Wrapper } from "./style";
 import { fetchApi } from "../../api";
 import Review from "../../components/Review";
 import AddressSearch from "../../components/AddressSearch";
+import { useDispatch } from "react-redux";
+import { logout } from "../../actions/User";
+import { useHistory } from "react-router";
 
 export default function LogIn() {
   const [modifyMode, setModifyMode] = useState(false);
@@ -15,6 +18,9 @@ export default function LogIn() {
   const [addressModalShow, setAddressModalShow] = useState(false);
   const [modifyImage, setModifyImage] = useState(false);
   const [userImage, setUserImage] = useState("");
+
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   // s3 서버에 업로드 할 유니크한 파일 이름
   function getFileName(file) {
@@ -146,6 +152,20 @@ export default function LogIn() {
     return newReviews;
   }
 
+  function handleDeactivate() {
+    if (window.confirm("정말 탈퇴하시겠습니까?")) {
+      fetchApi("/api/users/deactivate", "DELETE")
+        .then((res) => {
+          if (res.status === 200) {
+            alert("탈퇴 완료");
+            dispatch(logout());
+            history.push("/login");
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }
+
   useEffect(() => {
     fetchApi(`/api/users`)
       .then((res) => res.json())
@@ -241,23 +261,31 @@ export default function LogIn() {
           </div>
         </div>
         <div className="modify">
-          {modifyMode ? (
-            <>
-              <button
-                className="cancel"
-                onClick={() => {
-                  setModifyMode(false);
-                }}
-              >
-                취소
-              </button>
-              <button className="complete" onClick={handleCompleteButtonClick}>
-                완료
-              </button>
-            </>
-          ) : (
-            <button onClick={handleModifyButtonClick}>프로필 수정</button>
-          )}
+          <div className="top">
+            {modifyMode ? (
+              <>
+                <button
+                  className="cancel"
+                  onClick={() => {
+                    setModifyMode(false);
+                  }}
+                >
+                  취소
+                </button>
+                <button
+                  className="complete"
+                  onClick={handleCompleteButtonClick}
+                >
+                  완료
+                </button>
+              </>
+            ) : (
+              <button onClick={handleModifyButtonClick}>프로필 수정</button>
+            )}
+          </div>
+          <div className="bottom">
+            <button onClick={handleDeactivate}>회원 탈퇴</button>
+          </div>
         </div>
       </Wrapper>
       <ReviewWrapper>
