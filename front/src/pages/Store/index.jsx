@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
-import { fetchApi } from "../../api";
+import { fetchApi, fetchImages } from "../../api";
 import { Score } from "../../components/Score";
 import Review from "../../components/Review";
 import {
@@ -56,23 +56,64 @@ export default function Store() {
       })
       .catch((err) => console.log(err));
   }
+
+  async function addImagesToStore() {
+    if (!store.name) return;
+    if (store.imgUrls) return;
+    const newStore = { ...store };
+    const res = await fetchImages(newStore, 30);
+    if (res.status === 200) {
+      const data = await res.json();
+      const images = data?.documents
+        .map((item) => item.image_url)
+        .filter((img) => !img.includes("postfiles") && !img.includes("naver"));
+      newStore.imgUrls = images;
+    }
+    setStore(newStore);
+  }
+
+  async function addImageToSide() {
+    if (recommend.length < 1) return;
+    if (recommend[0].imgUrl) return;
+    const newRecommend = [...recommend];
+    for (let i = 0; i < newRecommend.length; i++) {
+      const res = await fetchImages(newRecommend[i], 1);
+      if (res.status === 200) {
+        const data = await res.json();
+        const images = data?.documents.map((item) => item.thumbnail_url);
+        newRecommend[i].imgUrl = images.length > 0 ? images[0] : "none";
+      }
+    }
+    setRecommend(newRecommend);
+  }
+
   useEffect(() => {
     getStore();
   }, [storeId]);
+  useEffect(() => {
+    addImagesToStore();
+  }, [store]);
+  useEffect(() => {
+    addImageToSide();
+  }, [recommend]);
 
   return (
     <Container>
       <Wrapper>
         <ImageContainer>
-          <div className="item">
-            <img
-              src={store.imgUrl ? store.imgUrl : ""}
-              alt=""
-              onError={(e) => {
-                e.target.src = "/images/default_store.png";
-              }}
-            />
-          </div>
+          {store.imgUrls &&
+            store.imgUrls.map((url, i) => (
+              <div className="item" key={i}>
+                <img
+                  src={url}
+                  alt=""
+                  onError={(e) => {
+                    // e.target.src = "/images/default_store.png";
+                    e.target.style.display = "none";
+                  }}
+                />
+              </div>
+            ))}
         </ImageContainer>
         <div className="bottom">
           <div className="left">
