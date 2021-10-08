@@ -75,6 +75,7 @@ public class StoreController {
 		if(userDetailsResponseEntity.getBody() == null) {
 			return new ResponseEntity<>(null, userDetailsResponseEntity.getStatusCode());
 		}
+
 		Pageable pageable = PageRequest.of(page, size);
 		List<StoreDTO> stores = storeService.getStoreList(keyword, pageable, sort);
 		if (stores == null || stores.size() == 0) {
