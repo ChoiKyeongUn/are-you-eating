@@ -1,0 +1,94 @@
+buildscript{
+    ext {
+        querydslVer = '4.4.0'
+        querydslPluginVer = '1.0.10'
+    }
+	dependencies {
+		classpath "gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:${querydslPluginVer}"
+	}
+}
+
+plugins {
+	id 'org.springframework.boot' version '2.4.10'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+apply plugin: 'com.ewerk.gradle.plugins.querydsl'
+
+group = 'com.ssafy'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+def querydslDir = 'src/main/generated'
+//def querydslDir = '$builDir/main/generated'
+querydsl {
+	library = "com.querydsl:querydsl-apt"
+	jpa = true
+	querydslSourcesDir = querydslDir
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs = ['src/main/java', querydslDir]
+		}
+	}
+}
+
+compileQuerydsl {
+	options.annotationProcessorPath = configurations.querydsl
+}
+
+configurations {
+	querydsl.extendsFrom compileClasspath
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'mysql:mysql-connector-java'
+	annotationProcessor("org.springframework.boot:spring-boot-starter-data-jpa")
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
+	implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.1.7.RELEASE'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation("org.springframework.plugin:spring-plugin-core:2.0.0.RELEASE")
+	testImplementation 'org.springframework.security:spring-security-test'
+
+	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8'
+	
+	implementation('commons-io:commons-io:2.6')
+	implementation("org.apache.commons:commons-collections4:4.4")
+	implementation("org.apache.commons:commons-lang3:3.9")
+
+	implementation("com.querydsl:querydsl-jpa:${querydslVer}")
+    implementation("com.querydsl:querydsl-apt:${querydslVer}")
+
+	implementation("com.auth0:java-jwt:3.10.3")
+
+	implementation 'org.springdoc:springdoc-openapi-ui:1.5.2'
+	compileOnly("javax.annotation:javax.annotation-api:1.2")
+
+	implementation("com.google.guava:guava:29.0-jre")
+	annotationProcessor("com.google.guava:guava:29.0-jre")
+}
+
+test {
+	useJUnitPlatform()
+}
