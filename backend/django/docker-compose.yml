@@ -1,0 +1,13 @@
+# Docker compose 버전
+version: "3.8"
+# 가동할 컨테이너 목록
+services:
+  data:
+    build:
+      context: .
+    restart: always
+    container_name: eatrice_recomm
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/django/

@@ -1,0 +1,16 @@
+# Docker compose 버전
+version: "3.8"
+# 가동할 컨테이너 목록
+services:
+  frontend:
+    container_name: eatrice_front
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    ports:
+      - 3000:3000
+    stdin_open: true
+    tty: true
